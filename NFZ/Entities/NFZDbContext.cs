@@ -14,7 +14,7 @@ namespace NFZ.Entities
         public DbSet<Order> orders;
         public DbSet<Worker> workers;
         public DbSet<Receipt> receipts;
-        public DbSet<Invoice> invokes;
+        public DbSet<Invoice> invoices;
         public DbSet<Product> products;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

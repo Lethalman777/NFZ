@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Faktura";
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <h1>Faktura zamówienia: </h1>
+    <div class="boxFaktura">
+        <h2 style="margin-left:10px">NFZ</h2>
+        <div class="line"></div>
+            <div class="numerFaktury">Faktura VAT #(numer faktury)</div>
+            <div class="dataFaktury">(data wystawienia)</div><br/> 
+        <div class="line"></div> <br/>
+        
+            <sector class="nabywca_sprzedawca">
+                <div>
+                    Sprzedawca<br/>
+                    NIP: PL 1234567890<br/>
+                    ul. Augustowska 77/13<br/>
+                    16-310 Sztabin
+                </div> 
+                <div>
+                    Nabywca<br/>
+                    (nazwa firmy lub imie)<br />
+                    NIP: PL(nip firmy)<br />             
+                </div>
+            </sector><br/>
+        <div class="line"></div> 
+        <table class="produkty_faktura" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Lp
+                    </th>
+                    <th>
+                        Nazwa
+                    </th>
+                    <th>
+                        Cena
+                    </th>
+                    <th>
+                        VAT
+                    </th>
+                    <th>
+                        Ilość
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td width="5%">
+                        Lp
+                    </td>
+                    <td width="30%">
+                        Nazwa
+                    </td>
+                    <td width="15%">
+                        Cena
+                    </td>
+                    <td width="15%">
+                        VAT
+                    </td>
+                    <td width="10%">
+                        Ilość
+                    </td>
+                    <td width="25%">
+                        <button class="usun_produkt" type="button">Usuń produkt</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="dodaj_produkt" type="button">Dodaj produkt</button>     
+    </div>
+</body>

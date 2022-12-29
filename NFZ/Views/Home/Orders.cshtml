@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "Orders Page";
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <h1>Orders</h1>
+<table class="orders_table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Nr zamówienia
+            </th>
+            <th>
+                Klient
+            </th>
+            <th>
+                Cena
+            </th>
+            <th>
+                Data wystawienia
+            </th>
+            <th>
+                Dokument
+            </th>
+        </tr>
+    </thead>
+    <tbody class="orders_table">
+        @*@foreach (var obj in Model)
+        {*@
+            <tr>
+                <td width="20%">
+                    Nr zamówienia
+                </td>
+                <td width="45%">
+                    Klient
+                </td>
+                <td width="10%">
+                    Cena
+                </td>
+                <td width="10%">
+                    Data wystawienia
+                </td>
+                <td width="15%">
+                    <a href="Receipt"><button class="paragon" type="button">Paragon</button></a> 
+                    <a href="Invoice"><button class="faktura" type="button">Faktura</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td width="20%">
+                    Nr zamówienia
+                </td>
+                <td width="45%">
+                    Klient
+                </td>
+                <td width="10%">
+                    Cena
+                </td>
+                <td width="10%">
+                    Data wystawienia
+                </td>
+                <td width="15%">
+                    <a href="Receipt"><button class="paragon" type="button">Paragon</button></a> 
+                    <a href="Invoice"><button class="faktura" type="button">Faktura</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td width="20%">
+                    Nr zamówienia
+                </td>
+                <td width="45%">
+                    Klient
+                </td>
+                <td width="10%">
+                    Cena
+                </td>
+                <td width="10%">
+                    Data wystawienia
+                </td>
+                <td width="15%">
+                    <a href="Receipt"><button class="paragon" type="button">Paragon</button></a>
+                    <a href="Invoice"><button class="faktura" type="button">Faktura</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td width="20%">
+                    Nr zamówienia
+                </td>
+                <td width="45%">
+                    Klient
+                </td>
+                <td width="10%">
+                    Cena
+                </td>
+                <td width="10%">
+                    Data wystawienia
+                </td>
+                <td width="15%">
+                    <a href="Receipt"><button class="paragon" type="button">Paragon</button></a>
+                    <a href="Invoice"><button class="faktura" type="button">Faktura</button></a>                   
+                </td>
+            </tr>
+        @*}*@
+    </tbody>
+</table>
+</body>

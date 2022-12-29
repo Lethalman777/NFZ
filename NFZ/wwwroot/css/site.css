@@ -14,5 +14,112 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #BECEBC;
+}
+
+.orders_table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.orders_table thead {
+    height:50px;
+    background-color: #3C91E6;
+    border-color:black;
+    border-style: solid;
+    border-width: 2px;   
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+    padding: 10px 5px;
+    word-break: normal;
+}
+.orders_table thead tr th {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.orders_table tbody {
+    background-color: #D0FFD6;
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+    padding: 10px 5px;
+    word-break: normal;
+}
+.orders_table tbody tr td {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+}
+.orders_table tbody tr td button{
+    width:200px;
+    margin:1px;
+    border-style:solid;
+    
+}
+.orders_table tbody tr td button:hover {
+    border-radius: 8px;
+}
+.orders_table tbody tr td .paragon:hover {
+    background-color: #67BB3A;
+}
+.orders_table tbody tr td .faktura:hover {
+    background-color:lightsalmon;
+}
+.boxFaktura {
+    background-color: #FFFFFF;
+    margin: 0 auto;
+    width: 500px;
+    height: 700px;
+    border: 1px solid black;
+}
+.boxFaktura .numerFaktury {
+    margin-left:10px;
+    float: left;
+    width: 65%;
+    font-weight: bold;
+}
+.boxFaktura .dataFaktury{
+    float:left;
+    width: 30%;
+    font-weight:bold;
+}
+.line{
+    margin-left:25px;
+    width: 90%;
+    height: 0.5px;
+    background-color:grey;
+}
+.nabywca_sprzedawca{
+    display:flex;
+}
+.nabywca_sprzedawca div{
+    margin-left:10px;
+    width:50%;
+}
+.produkty_faktura{
+    width:100%;
+    margin-left:10px;
+}
+.dodaj_produkt{
+    margin-left:10px;
+}
+.dodaj_produkt:hover{
+    margin-left:10px;
+    background-color:green;
+}
+.usun_produkt:hover {
+    background-color: red;
+}
+.boxParagon {
+    background-color: #FFFFFF;
+    margin: 0 auto;
+    width: 500px;
+    height: 700px;
+    border: 1px solid black;
 }
