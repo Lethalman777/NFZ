@@ -14,7 +14,7 @@ namespace NFZ.Entities
         public DbSet<Order> orders;
         public DbSet<Worker> workers;
         public DbSet<Receipt> receipts;
-        public DbSet<Invoke> invokes;
+        public DbSet<Invoice> invokes;
         public DbSet<Product> products;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -68,15 +68,15 @@ namespace NFZ.Entities
               .Property(a => a.Price)
               .IsRequired();
 
-            modelBuilder.Entity<Invoke>()
+            modelBuilder.Entity<Invoice>()
               .Property(a => a.NIP)
               .IsRequired();
 
-            modelBuilder.Entity<Invoke>()
+            modelBuilder.Entity<Invoice>()
               .Property(a => a.AccountNr)
               .IsRequired();
 
-            modelBuilder.Entity<Invoke>()
+            modelBuilder.Entity<Invoice>()
               .Property(a => a.ClientName)
               .IsRequired()
               .HasMaxLength(50);
