@@ -1,4 +1,6 @@
-﻿@{
+﻿@using NFZ.Entities
+@model List<Order>
+@{
     ViewData["Title"] = "Orders Page";
 }
 <head>
@@ -27,14 +29,14 @@
         </tr>
     </thead>
     <tbody class="orders_table">
-        @*@foreach (var obj in Model)
-        {*@
+        @foreach (var obj in Model)
+        {
             <tr>
                 <td width="20%">
-                    Nr zamówienia
+                    @obj.Id
                 </td>
                 <td width="45%">
-                    Klient
+                    @obj.ClientName
                 </td>
                 <td width="10%">
                     Cena
@@ -43,65 +45,11 @@
                     Data wystawienia
                 </td>
                 <td width="15%">
-                    <a href="Receipt"><button class="paragon" type="button">Paragon</button></a> 
-                    <a href="Invoice"><button class="faktura" type="button">Faktura</button></a>
+                    <a href='@Url.Action("GetReceipt", "Document", null)'><button class="paragon" type="button">Paragon</button></a> 
+                    <a href='@Url.Action("GetReceipt", "Document", null)'><button class="faktura" type="button"> Faktura</button></a>
                 </td>
             </tr>
-            <tr>
-                <td width="20%">
-                    Nr zamówienia
-                </td>
-                <td width="45%">
-                    Klient
-                </td>
-                <td width="10%">
-                    Cena
-                </td>
-                <td width="10%">
-                    Data wystawienia
-                </td>
-                <td width="15%">
-                    <a href="Receipt"><button class="paragon" type="button">Paragon</button></a> 
-                    <a href="Invoice"><button class="faktura" type="button">Faktura</button></a>
-                </td>
-            </tr>
-            <tr>
-                <td width="20%">
-                    Nr zamówienia
-                </td>
-                <td width="45%">
-                    Klient
-                </td>
-                <td width="10%">
-                    Cena
-                </td>
-                <td width="10%">
-                    Data wystawienia
-                </td>
-                <td width="15%">
-                    <a href="Receipt"><button class="paragon" type="button">Paragon</button></a>
-                    <a href="Invoice"><button class="faktura" type="button">Faktura</button></a>
-                </td>
-            </tr>
-            <tr>
-                <td width="20%">
-                    Nr zamówienia
-                </td>
-                <td width="45%">
-                    Klient
-                </td>
-                <td width="10%">
-                    Cena
-                </td>
-                <td width="10%">
-                    Data wystawienia
-                </td>
-                <td width="15%">
-                    <a href="Receipt"><button class="paragon" type="button">Paragon</button></a>
-                    <a href="Invoice"><button class="faktura" type="button">Faktura</button></a>                   
-                </td>
-            </tr>
-        @*}*@
+        }
     </tbody>
 </table>
 </body>

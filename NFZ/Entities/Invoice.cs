@@ -4,7 +4,7 @@ namespace NFZ.Entities
 {
     public class Invoice : Document
     {
-        public DateOnly PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; }
 
         public string ClientName { get; set; }
 

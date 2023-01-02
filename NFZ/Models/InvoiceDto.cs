@@ -2,7 +2,7 @@
 {
     public class InvoiceDto : DocumentDto
     {
-        public DateOnly PaymentDate;
+        public DateTime PaymentDate;
 
         public string ClientName;
 

@@ -2,7 +2,7 @@
 
 namespace NFZ.Services
 {
-    public class DatabaseService
+    public class DatabaseService : IDatabaseService
     {
         private readonly NFZDbContext _dbContext;
 

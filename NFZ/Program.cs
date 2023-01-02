@@ -1,16 +1,28 @@
 using Microsoft.EntityFrameworkCore;
 using NFZ.Entities;
+using NFZ.Seeder;
+using NFZ.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<NFZDbContext>();
+
+builder.Services.AddScoped<DocumentSeeder>();
+builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 
 builder.Services.AddDbContext<NFZDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+
+app.UseSession();
+
+var scope = app.Services.CreateScope();
+
+var seeder = scope.ServiceProvider.GetRequiredService<DocumentSeeder>();
+
+seeder.Seed();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

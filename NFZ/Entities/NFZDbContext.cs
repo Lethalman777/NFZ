@@ -4,18 +4,16 @@ namespace NFZ.Entities
 {
     public class NFZDbContext : DbContext
     {
-        public string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=NFZDB;Trusted_Connection=True";
-
         public NFZDbContext(DbContextOptions<NFZDbContext> options) : base(options)
         {
             
         }
 
-        public DbSet<Order> orders;
-        public DbSet<Worker> workers;
-        public DbSet<Receipt> receipts;
-        public DbSet<Invoice> invoices;
-        public DbSet<Product> products;
+        public DbSet<Order> orders { get; set; }
+        public DbSet<Worker> workers { get; set; }
+        public DbSet<Receipt> receipts { get; set; }
+        public DbSet<Invoice> invoices { get; set; }
+        public DbSet<Product> products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -89,11 +87,6 @@ namespace NFZ.Entities
             modelBuilder.Entity<Order>()
              .Property(a => a.isInvoke)
              .IsRequired();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_connectionString);
         }
     }
 }
