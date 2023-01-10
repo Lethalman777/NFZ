@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ReceiptDto
+
+@{
     ViewData["Title"] = "Orders Page";
 }
 <head>
@@ -16,7 +18,7 @@
                     16-310 Sztabin
                 </div> 
                 <div>
-                    Nr:(numer paragonu)<br/>   
+                    Nr:@Model.Number<br/>   
                     Data:(data wystawienia)<br/>
                     (dodatkowe informacje)
                 </div>
@@ -43,28 +45,32 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach (var obj in Model.Products)
+                {
                 <tr>
                     <td width="5%">
                         Lp
                     </td>
                     <td width="30%">
-                        Nazwa
+                        @obj.Name
                     </td>
                     <td width="15%">
-                        Cena
+                        @obj.Price
                     </td>
                     <td width="15%">
-                        VAT
+                        @obj.Vat
                     </td>
                     <td width="10%">
-                        Ilość
+                        @obj.Count
                     </td>
                     <td width="25%">
                         <button class="usun_produkt" type="button">Usuń produkt</button>
                     </td>
                 </tr>
+                }
             </tbody>
         </table>
-        <button class="dodaj_produkt" type="button">Dodaj produkt</button>     
+        <button class="dodaj_produkt" type="button">Dodaj produkt</button>
+        <a href='@Url.Action("SaveReceipt", "Document", Model)'><button class="paragon" type="button">Dodaj Paragon</button></a> 
     </div>
 </body>

@@ -10,8 +10,8 @@
     <div class="boxFaktura">
         <h2 style="margin-left:10px">NFZ</h2>
         <div class="line"></div>
-            <div class="numerFaktury">Faktura VAT #(numer faktury)</div>
-            <div class="dataFaktury">(data wystawienia)</div><br/> 
+            <div class="numerFaktury">Faktura VAT @Model.Number</div>
+            <div class="dataFaktury">@Model.PaymentDate</div><br/> 
         <div class="line"></div> <br/>
         
             <sector class="nabywca_sprzedawca">
@@ -23,8 +23,8 @@
                 </div> 
                 <div>
                     Nabywca<br/>
-                    (nazwa firmy lub imie)<br />
-                    NIP: PL(nip firmy)<br />             
+                    @Model.ClientName<br />
+                    NIP: PL @Model.NIP<br />             
                 </div>
             </sector><br/>
         <div class="line"></div> 
@@ -74,6 +74,7 @@
                 }
             </tbody>
         </table>
-        <button class="dodaj_produkt" type="button">Dodaj produkt</button>     
+        <button class="dodaj_produkt" type="button">Dodaj produkt</button>  
+        <a href='@Url.Action("SaveInvoice", "Document", Model)'><button class="faktura" type="button">Zatwierdź Fakturę</button></a>
     </div>
 </body>

@@ -1,32 +1,60 @@
 ﻿using NFZ.Entities;
+using NFZ.Iterators;
 using NFZ.Models;
 
 namespace NFZ.Builders
 {
-    public class BuildInvoice : Builder
+    public class BuildInvoice : DocumentBuilder
     {
-        public InvoiceDto document;
+        Order order;
+        Iterator iterator;
+        public InvoiceDto invoiceDto;
 
-        public BuildInvoice(InvoiceDto document)
+        public BuildInvoice(Order order, Iterator iterator)
         {
-            this.document = document;
+            this.order = order;
+            this.iterator = iterator;
         }
 
-        public override Document BuildDocument()
+        public override void BuildTemplate()
         {
-            throw new NotImplementedException();
-            var invoice = new Invoice()
+            invoiceDto = new InvoiceDto()
             {
-                Worker = document.Worker,
-                Products = new List<Product>(document.Products),
-                Price = document.Price,
-                PaymentDate = document.PaymentDate,
-                ClientName = document.ClientName,
-                NIP = document.NIP,
-                AccountNr = document.AccountNr
+                Worker = new Worker(),
+                Products = new List<Product>(order.Products),
+                Price = TotalPrice(order.Products),
+                PaymentDate = new DateTime(),
+                ClientName = order.ClientName,
+                Number = GetNumber()
             };
+        }
 
-            return invoice;
+        public override DocumentDto GetTemplate()
+        {
+            return invoiceDto;
+        }
+
+        private decimal TotalPrice(List<Product> products)
+        {
+            decimal total = 0;
+            foreach (var product in products)
+            {
+                total += product.Price;
+            }
+
+            return total;
+        }
+
+        private int GetNumber()
+        {
+            iterator.isInvoice = true;
+
+            while (!iterator.isDone())
+            {
+                iterator.Next();
+            }
+
+            return iterator.currentNumber + 1;
         }
     }
 }

@@ -4,9 +4,9 @@ namespace NFZ.Builders
 {
     public class Director
     {
-        public void Construct(Builder builder)
+        public void Construct(DocumentBuilder builder)
         {           
-            builder.BuildDocument();
+            builder.BuildTemplate();
         }
     }
 }

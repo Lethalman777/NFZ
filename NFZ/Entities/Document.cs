@@ -14,7 +14,7 @@
 
         public virtual List<Product> Products { get; set; }
 
-        public float Price { get; set; }
+        public decimal Price { get; set; }
 
         public DateTime Date { get; set; }
     }

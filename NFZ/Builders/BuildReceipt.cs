@@ -1,28 +1,58 @@
 ﻿using NFZ.Entities;
+using NFZ.Iterators;
 using NFZ.Models;
 
 namespace NFZ.Builders
 {
-    public class BuildReceipt : Builder
+    public class BuildReceipt : DocumentBuilder
     {
-        public ReceiptDto document;
+        Order order;
+        Iterator iterator;
+        public ReceiptDto receiptDto;
 
-        public BuildReceipt(ReceiptDto document)
+        public BuildReceipt(Order order, Iterator iterator)
         {
-            this.document = document;
+            this.order = order;
+            this.iterator = iterator;
         }
 
-        public override Document BuildDocument()
+        public override void BuildTemplate()
         {
-            throw new NotImplementedException();
-            var receipt = new Receipt()
+            receiptDto = new ReceiptDto()
             {
-                Worker = document.Worker,
-                Products = new List<Product>(document.Products),
-                Price = document.Price
+                Worker = new Worker(),
+                Products = new List<Product>(order.Products),
+                Price = TotalPrice(order.Products),
+                Number = GetNumber()
             };
+        }
 
-            return receipt;
+        public override DocumentDto GetTemplate()
+        {
+            return receiptDto;
+        }
+
+        private decimal TotalPrice(List<Product> products)
+        {
+            decimal total = 0;
+            foreach (var product in products)
+            {
+                total += product.Price;
+            }
+
+            return total;
+        }
+
+        private int GetNumber()
+        {
+            iterator.isInvoice = false;
+
+            while (!iterator.isDone())
+            {
+                iterator.currentNumber++;
+            }
+
+            return iterator.currentNumber + 1;
         }
     }
 }

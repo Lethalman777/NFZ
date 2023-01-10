@@ -63,6 +63,61 @@ namespace NFZ.Services
             _dbContext.SaveChanges();
         }
 
+        public Document GetDocument(int id, bool isInvoice)
+        {
+            if (isInvoice)
+            {
+                return _dbContext.invoices.FirstOrDefault(p => p.Number == id);
+            }
+            else
+            {
+                return _dbContext.receipts.FirstOrDefault(p => p.Number == id);
+            }          
+        }
+
+        public void AddInvoice(Invoice invoice)
+        {          
+            _dbContext.invoices.Add(invoice);         
+            _dbContext.SaveChanges();
+        }
+
+        public void AddReceipt(Receipt receipt)
+        {
+            _dbContext.receipts.Add(receipt);
+            _dbContext.SaveChanges();
+        }
+
+        public void RemoveDocument(int Id, bool isInvoice)
+        {
+            if (isInvoice)
+            {
+                var document = _dbContext.invoices.FirstOrDefault(r => r.Id == Id);
+
+                _dbContext.Remove(document);
+            }
+            else
+            {
+                var document = _dbContext.receipts.FirstOrDefault(r => r.Id == Id);
+
+                _dbContext.Remove(document);
+            }
+           
+
+            _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<Document> GetDocuments(bool isInvoice)
+        {
+            if(isInvoice)
+            {
+                return _dbContext.invoices;
+            }
+            else
+            {
+                return _dbContext.receipts;
+            }           
+        }
+
         public IEnumerable<Order> GetOrders()
         {
             return _dbContext.orders.ToList();
