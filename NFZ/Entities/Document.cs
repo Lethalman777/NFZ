@@ -9,8 +9,6 @@
         public int WorkerId { get; set; }
 
         public virtual Worker Worker { get; set; }
-        
-        public virtual List<Worker> Workers { get; set; }
 
         public virtual List<Product> Products { get; set; }
 

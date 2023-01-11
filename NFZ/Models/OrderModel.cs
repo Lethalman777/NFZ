@@ -11,5 +11,7 @@ namespace NFZ.Models
         public List<Product> Products { get; set; }
 
         public List<int> productId { get; set; }
+
+        public int Price { get; set; }
     }
 }

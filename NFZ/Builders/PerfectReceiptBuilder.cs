@@ -6,18 +6,26 @@ namespace NFZ.Builders
     public class PerfectReceiptBuilder : PerfectDocumentBuilder
     {
         DocumentModel receiptDto;
+        Worker worker;
         public Receipt receipt;
 
-        public PerfectReceiptBuilder(DocumentModel receiptDto)
+        public PerfectReceiptBuilder(DocumentModel receiptDto, Worker worker)
         {
             this.receiptDto = receiptDto;
+            this.worker = worker;
         }
 
         public override void BuildDocument()
         {
             receipt = new Receipt()
             {
-                Worker = new Worker(),
+                Worker = new Worker()
+                {
+                    Name = worker.Name,
+                    Surname = worker.Surname,
+                    Login = worker.Login,
+                    Password = worker.Password
+                },
                 Products = new List<Product>(receiptDto.Products),
                 Price = TotalPrice(receiptDto.Products),
                 Number = receiptDto.Number,

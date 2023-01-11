@@ -20,7 +20,6 @@ namespace NFZ.Builders
         {
             invoiceDto = new DocumentModel()
             {
-                Worker = new Worker(),
                 Products = new List<Product>(order.Products),
                 Price = TotalPrice(order.Products),
                 PaymentDate = new DateTime(),

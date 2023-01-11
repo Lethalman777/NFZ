@@ -6,18 +6,26 @@ namespace NFZ.Builders
     public class PerfectInvoiceBuilder : PerfectDocumentBuilder
     {
         DocumentModel invoiceDto;
+        Worker worker;
         public Invoice invoice;
 
-        public PerfectInvoiceBuilder(DocumentModel invoiceDto)
+        public PerfectInvoiceBuilder(DocumentModel invoiceDto, Worker worker)
         {
             this.invoiceDto = invoiceDto;
+            this.worker = worker;
         }
 
         public override void BuildDocument()
         {
             invoice = new Invoice()
             {
-                Worker = new Worker(),
+                Worker = new Worker()
+                {
+                    Name = worker.Name,
+                    Surname = worker.Surname,
+                    Login = worker.Login,
+                    Password = worker.Password
+                },
                 Products = new List<Product>(invoiceDto.Products),
                 Price = TotalPrice(invoiceDto.Products),
                 PaymentDate = new DateTime(),

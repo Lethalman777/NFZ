@@ -18,7 +18,7 @@ namespace NFZ.Services
         public DocumentModel GetTemplate(OrderModel order)
         {
            var iterator = new Iterator(databaseService);
-
+            
             DocumentBuilder builder = null;
             if (order.isInvoke)
             {
@@ -39,13 +39,21 @@ namespace NFZ.Services
         public void SaveDocument(DocumentModel model)
         {
             PerfectDocumentBuilder builder;
+            Worker worker = new Worker()
+            {
+                Id = 1,
+                Name = databaseService.GetWorker(1).Name,
+                Surname = databaseService.GetWorker(1).Surname,
+                Login = databaseService.GetWorker(1).Login,
+                Password = databaseService.GetWorker(1).Password
+            };
             if (model.isInvoice)
             {
-                builder = new PerfectInvoiceBuilder(model);
+                builder = new PerfectInvoiceBuilder(model, worker);
             }
             else
             {
-                builder = new PerfectReceiptBuilder(model);
+                builder = new PerfectReceiptBuilder(model, worker);
             }
             Director director = new Director();
             director.Construct(builder);

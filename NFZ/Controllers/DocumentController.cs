@@ -78,7 +78,6 @@ namespace NFZ.Controllers
         {
             var document = new DocumentModel()
             {
-                Worker = new Worker(),
                 Products = new List<Product>(order.Products),
                 Price = 34
             };
