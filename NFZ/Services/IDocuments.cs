@@ -5,7 +5,8 @@ namespace NFZ.Services
 {
     public interface IDocuments
     {
-        DocumentDto GetTemplate(Order order);
+        DocumentModel GetTemplate(OrderModel order);
+        void SaveDocument(DocumentModel document);
         List<Document> GetDocuments(List<string> types);
     }
 }

@@ -6,11 +6,11 @@ namespace NFZ.Builders
 {
     public class BuildReceipt : DocumentBuilder
     {
-        Order order;
+        OrderModel order;
         Iterator iterator;
-        public ReceiptDto receiptDto;
+        public DocumentModel receiptDto;
 
-        public BuildReceipt(Order order, Iterator iterator)
+        public BuildReceipt(OrderModel order, Iterator iterator)
         {
             this.order = order;
             this.iterator = iterator;
@@ -18,16 +18,17 @@ namespace NFZ.Builders
 
         public override void BuildTemplate()
         {
-            receiptDto = new ReceiptDto()
+            receiptDto = new DocumentModel()
             {
                 Worker = new Worker(),
                 Products = new List<Product>(order.Products),
                 Price = TotalPrice(order.Products),
-                Number = GetNumber()
+                Number = GetNumber(),
+                isInvoice = false
             };
         }
 
-        public override DocumentDto GetTemplate()
+        public override DocumentModel GetTemplate()
         {
             return receiptDto;
         }

@@ -21,43 +21,54 @@ namespace NFZ.Controllers
         public IActionResult Orders()
         {
             //var orders = dbservice.GetOrders().ToList();
-            var orders = new List<Order>()
+            var orders = new List<OrderModel>()
             {
-                new Order()
+                new OrderModel()
                 {
-                    Id = 1,
                     ClientName = "kola",
-                    Products = new List<Product>(dbservice.GetProducts()),
-                    isInvoke = true
+                    Products = new List<Product>()
+                    {
+                        new Product()
+                        {
+                            Id = dbservice.GetProduct(1).Id,
+                            Name = dbservice.GetProduct(1).Name,
+                            Price = dbservice.GetProduct(1).Price,
+                            isCountable = dbservice.GetProduct(1).isCountable,
+                            Count = dbservice.GetProduct(1).Count,
+                            Vat = dbservice.GetProduct(1).Vat
+                        }
+                    },
+                    isInvoke = true,
                 }
             };
+            foreach (var order in orders)
+            {
+                order.productId = new List<int>();
+                foreach(var product in order.Products)
+                {
+                    order.productId.Add(product.Id);
+                }
+            }
             return View(orders);
         }
 
         [Route("Invoice")]
-        public IActionResult Invoice(Order order)
+        public IActionResult Invoice(OrderModel order)
         {
+            order.Products = new List<Product>();
+            foreach(var product in order.productId)
+            {
+                order.Products.Add(dbservice.GetProduct(product));
+            }
             var document = documents.GetTemplate(order);
 
             return View(document);
         }
 
         [Route("SaveInvoice")]
-        public IActionResult SaveInvoice(InvoiceDto invoice)
+        public IActionResult SaveInvoice(DocumentModel invoice)
         {
-            var Invoice = new Invoice()
-            {
-                ClientName = invoice.ClientName,
-                PaymentDate = invoice.PaymentDate,
-                Price = invoice.Price,
-                NIP = invoice.NIP,
-                AccountNr = invoice.AccountNr,
-                Products = invoice.Products,
-                Date = new DateTime(),
-                Number = invoice.Number
-            };
-
-            dbservice.AddInvoice(Invoice);
+            documents.SaveDocument(invoice);
 
             return RedirectToAction("Orders");
         }
@@ -65,7 +76,7 @@ namespace NFZ.Controllers
         [Route("Receipt")]
         public IActionResult Receipt(Order order)
         {
-            var document = new ReceiptDto()
+            var document = new DocumentModel()
             {
                 Worker = new Worker(),
                 Products = new List<Product>(order.Products),
@@ -75,7 +86,7 @@ namespace NFZ.Controllers
         }
 
         [Route("SaveReceipt")]
-        public IActionResult SaveReceipt(ReceiptDto receipt)
+        public IActionResult SaveReceipt(DocumentModel receipt)
         {
             var Invoice = new Receipt()
             {               

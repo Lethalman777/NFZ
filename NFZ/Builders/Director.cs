@@ -8,5 +8,10 @@ namespace NFZ.Builders
         {           
             builder.BuildTemplate();
         }
+
+        public void Construct(PerfectDocumentBuilder builder)
+        {
+            builder.BuildDocument();
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace NFZ.Services
             this.databaseService = databaseService;
         }
 
-        public DocumentDto GetTemplate(Order order)
+        public DocumentModel GetTemplate(OrderModel order)
         {
            var iterator = new Iterator(databaseService);
 
@@ -34,6 +34,32 @@ namespace NFZ.Services
             director.Construct(builder);
             var documentDto = builder.GetTemplate();
             return documentDto;
+        }
+
+        public void SaveDocument(DocumentModel model)
+        {
+            PerfectDocumentBuilder builder;
+            if (model.isInvoice)
+            {
+                builder = new PerfectInvoiceBuilder(model);
+            }
+            else
+            {
+                builder = new PerfectReceiptBuilder(model);
+            }
+            Director director = new Director();
+            director.Construct(builder);
+
+            if (model.isInvoice)
+            {
+                var document = (Invoice)builder.GetDocument();
+                databaseService.AddInvoice(document);
+            }
+            else
+            {
+                var document = (Receipt)builder.GetDocument();
+                databaseService.AddReceipt(document);
+            }
         }
 
         public List<Document> GetDocuments(List<string> types)

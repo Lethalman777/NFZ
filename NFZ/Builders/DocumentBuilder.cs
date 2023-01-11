@@ -7,6 +7,6 @@ namespace NFZ.Builders
     public abstract class DocumentBuilder
     {
         public abstract void BuildTemplate();
-        public abstract DocumentDto GetTemplate();
+        public abstract DocumentModel GetTemplate();
     }
 }

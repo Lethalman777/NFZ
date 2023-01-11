@@ -1,4 +1,4 @@
-﻿@model InvoiceDto
+﻿@model DocumentModel
 @{
     ViewData["Title"] = "Faktura";
 }
@@ -75,6 +75,7 @@
             </tbody>
         </table>
         <button class="dodaj_produkt" type="button">Dodaj produkt</button>  
-        <a href='@Url.Action("SaveInvoice", "Document", Model)'><button class="faktura" type="button">Zatwierdź Fakturę</button></a>
+        <a href='@Url.Action("SaveInvoice", "Document", Model)'>
+        <button class="faktura" type="button">Zatwierdź Fakturę</button></a>
     </div>
 </body>

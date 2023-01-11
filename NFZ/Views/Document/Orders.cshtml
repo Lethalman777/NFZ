@@ -1,5 +1,5 @@
 ﻿@using NFZ.Entities
-@model List<Order>
+@model List<OrderModel>
 @{
     ViewData["Title"] = "Orders Page";
 }
@@ -33,11 +33,17 @@
         {
             <tr>
                 <td width="20%">
-                    @obj.Id
+                    1
                 </td>
                 <td width="45%">
                     @obj.ClientName
                 </td>
+                <td width="45%">
+                        @foreach(var item in obj.Products)
+                        {
+                            @item.Name <br/>
+                        }
+                    </td>
                 <td width="10%">
                     Cena
                 </td>
