@@ -123,3 +123,76 @@ body {
     height: 700px;
     border: 1px solid black;
 }
+.loginBody {
+    background-color: black;
+}
+.loginBox{
+    
+    position:absolute;
+    top:50%;
+    left:50%;
+    padding:5vw;
+    background-color:#222;
+    transform: translate(-50%, -50%);
+}
+.loginHeader{
+    height:5vw;
+    font-size:3vw;
+    text-align:center;
+    background: linear-gradient(135deg, #ee0d0d, yellow);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.loginDiv{
+    width:20vw;
+    height:3vw;
+    margin-top:2vw;
+    background:whitesmoke;
+}
+.loginDiv, .loginInput[type=submit]{
+    border-radius:0.25vw;
+}
+.loginDiv:focus-within{
+    background:linear-gradient(135deg,#ee0d0d,yellow);
+}
+.loginInput{
+    width:19.5vw;
+    height:2.5vw;
+    margin:0.2vw;
+    padding: 0.6vw 1vw 0.4vw;
+    border: 0;
+    border-radius: 0.15vw;
+    outline: none;
+    background-color:whitesmoke;
+    font-size: 1vw;
+}
+.loginInput[type=submit]{
+    box-sizing:content-box;
+    width:18vw;
+    height:3vw;
+    margin:2vw 0;
+    padding: 0 1vw;
+    border: 0;
+    background: linear-gradient(135deg, #ee0d0d, yellow);
+    font-size: 1.5vw;
+    color:white;
+    letter-spacing: 0.2vw;
+    cursor:pointer;
+}
+.documents_table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.documents_table thead {
+    height: 50px;
+    background-color: #3C91E6;
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+    padding: 10px 5px;
+    word-break: normal;
+}
+}

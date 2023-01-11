@@ -1,0 +1,100 @@
+﻿@using NFZ.Entities
+@model List<OrderModel>
+@{
+    ViewData["Title"] = "Documents Page";
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <h1 style="text-align:center; font-size:3vw">INVOICES</h1>
+    <table class="orders_table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th width="10%">
+                    Numer
+                </th>
+                <th width="40%">
+                    Nazwa/Imie
+                </th>
+                <th width="15%">
+                    Cena
+                </th>
+                <th width="20%">
+                    Data
+                </th>
+                <th width="15%">
+                    Szczegóły
+                </th>
+            </tr>
+        </thead>
+        <tbody class="orders_table">
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td width="10%">
+                        1
+                    </td>
+                    <td width="40%">
+                        Nazwa
+                    </td>
+                    <td width="15%">
+                        Cena
+                    </td>
+                    <td width="20%">
+                        Data
+                    </td>
+                    <td width="15%">
+                        <a href='@Url.Action("Invoice", "Document", obj)'><button class="paragon" type="button">Szczegóły</button></a>
+                    </td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+    <h1 style="text-align:center; font-size:3vw">RECEIPTS</h1>
+    <table class="orders_table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th width="10%">
+                    Numer
+                </th>
+                <th width="40%">
+                    Nazwa/Imie
+                </th>
+                <th width="15%">
+                    Cena
+                </th>
+                <th width="20%">
+                    Data
+                </th>
+                <th width="15%">
+                    Szczegóły
+                </th>
+            </tr>
+        </thead>
+        <tbody class="orders_table">
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td width="10%">
+                        1
+                    </td>
+                    <td width="40%">
+                        Nazwa
+                    </td>
+                    <td width="15%">
+                        Cena
+                    </td>
+                    <td width="20%">
+                        Data
+                    </td>
+                    <td width="15%">
+                       <a href='@Url.Action("Receipt", "Document", obj)'><button class="paragon" type="button">Szczegóły</button></a>
+                    </td>
+                </tr>
+              }
+            
+        </tbody>
+    </table>
+</body>
