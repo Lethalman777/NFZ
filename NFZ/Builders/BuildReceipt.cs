@@ -1,6 +1,8 @@
-﻿using NFZ.Entities;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using NFZ.Entities;
 using NFZ.Iterators;
 using NFZ.Models;
+using NFZ.Services;
 
 namespace NFZ.Builders
 {
@@ -8,22 +10,25 @@ namespace NFZ.Builders
     {
         OrderModel order;
         Iterator iterator;
+        IDatabaseService databaseService;
         public DocumentModel receiptDto;
 
         public BuildReceipt(OrderModel order, Iterator iterator)
         {
             this.order = order;
             this.iterator = iterator;
+            this.databaseService = databaseService;
         }
 
         public override void BuildTemplate()
-        {
+        {          
             receiptDto = new DocumentModel()
             {
                 Products = new List<Product>(order.Products),
                 Price = TotalPrice(order.Products),
                 Number = GetNumber(),
-                isInvoice = false
+                isInvoice = false,
+                selectId = ""
             };
         }
 

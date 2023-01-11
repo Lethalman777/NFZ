@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NFZ.Builders;
 using NFZ.Entities;
 using NFZ.Models;
@@ -74,13 +75,14 @@ namespace NFZ.Controllers
         }
 
         [Route("Receipt")]
-        public IActionResult Receipt(Order order)
+        public IActionResult Receipt(OrderModel order)
         {
-            var document = new DocumentModel()
+            order.Products = new List<Product>();
+            foreach (var product in order.productId)
             {
-                Products = new List<Product>(order.Products),
-                Price = 34
-            };
+                order.Products.Add(dbservice.GetProduct(product));
+            }
+            var document = documents.GetTemplate(order);
             return View(document);
         }
 
@@ -98,6 +100,51 @@ namespace NFZ.Controllers
             dbservice.AddReceipt(Invoice);
 
             return RedirectToAction("Orders");
+        }
+
+        public IActionResult ShowList(DocumentModel model)
+        {     
+            model.isSelect = true;
+            model.selectId = "";
+
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var product in dbservice.GetProducts())
+            {
+                list.Add(new SelectListItem()
+                {
+                    Text = product.Name,
+                    Value = product.Id.ToString()
+                });
+            }
+
+            model.selectLists = list;
+
+            return View("Invoice", model);
+        }
+
+        public IActionResult AddProductFromList(DocumentModel model)
+        {
+            model.Products.Add(new Product()
+            {
+                Id = dbservice.GetProduct(int.Parse(model.selectId)).Id,
+                Name = dbservice.GetProduct(int.Parse(model.selectId)).Name,
+                Price = dbservice.GetProduct(int.Parse(model.selectId)).Price,
+                isCountable = dbservice.GetProduct(int.Parse(model.selectId)).isCountable,
+                Vat = dbservice.GetProduct(int.Parse(model.selectId)).Vat,
+                Count = dbservice.GetProduct(int.Parse(model.selectId)).Count
+            });
+
+            model.isSelect = false;
+            model.selectId = "";
+
+            return View("Invoice", model);
+        }
+
+        public IActionResult DeleteProduct(DocumentModel model, int id)
+        {
+            var product = model.Products.FirstOrDefault(x => x.Id == id);
+            model.Products.Remove(product);
+            return View("Invoice", model);
         }
     }
 }

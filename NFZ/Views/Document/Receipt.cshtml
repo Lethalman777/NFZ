@@ -64,13 +64,22 @@
                         @obj.Count
                     </td>
                     <td width="25%">
-                        <button class="usun_produkt" type="button">Usuń produkt</button>
+                        <a href='@Url.Action("DeleteProduct", "Document", new {model = Model, id = obj.Id})'>
+                       <button class="usun_produkt" type="button">Usuń produkt</button></a> <br />
                     </td>
                 </tr>
                 }
             </tbody>
         </table>
-        <button class="dodaj_produkt" type="button">Dodaj produkt</button>
+         @if (!Model.isSelect)
+        {
+            <button class="dodaj_produkt" type="button" asp-action="ShowList" asp-controller="Document">Dodaj produkt</button> <br />
+        }        
+        else
+        {
+            <select asp-items="Model.selectLists" asp-for="selectId">Produkty</select> <br />
+            <button class="dodaj_produkt" type="button" asp-action="AddProductFromList" asp-controller="Document">Dodaj produkt</button> <br />
+        }
         <a href='@Url.Action("SaveReceipt", "Document", Model)'><button class="paragon" type="button">Dodaj Paragon</button></a> 
     </div>
 </body>

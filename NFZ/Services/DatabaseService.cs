@@ -11,7 +11,7 @@ namespace NFZ.Services
             _dbContext = dbContext;
         }
 
-        public IEnumerable<Product> GetProducts()
+        public List<Product> GetProducts()
         {
             return _dbContext.products.ToList();
         }
@@ -40,7 +40,7 @@ namespace NFZ.Services
 
         public IEnumerable<Worker> GetWorkers()
         {
-            return _dbContext.workers.ToList();
+            return _dbContext.workers;
         }
 
         public Worker GetWorker(int id)
@@ -120,7 +120,7 @@ namespace NFZ.Services
 
         public IEnumerable<Order> GetOrders()
         {
-            return _dbContext.orders.ToList();
+            return _dbContext.orders;
         }
 
         public Order GetOrder(int id)

@@ -11,7 +11,7 @@ namespace NFZ.Models
 
         public List<SelectListItem> selectLists { get; set; }
 
-        public SelectListItem selectedItem { get; set; }
+        public string selectId { get; set; }
 
         public decimal Price { get; set; }
 
@@ -24,5 +24,7 @@ namespace NFZ.Models
         public int AccountNr { get; set; }
 
         public bool isInvoice { get; set; }
+
+        public bool isSelect { get; set; }
     }
 }

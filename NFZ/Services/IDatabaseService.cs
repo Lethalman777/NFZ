@@ -14,7 +14,7 @@ namespace NFZ.Services
         IEnumerable<Document> GetDocuments(bool isInvoice);
         IEnumerable<Order> GetOrders();
         Product GetProduct(int id);
-        IEnumerable<Product> GetProducts();
+        List<Product> GetProducts();
         Worker GetWorker(int id);
         IEnumerable<Worker> GetWorkers();
         void RemoveDocument(int Id, bool isInvoice);
