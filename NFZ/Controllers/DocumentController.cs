@@ -17,6 +17,42 @@ namespace NFZ.Controllers
             this.dbservice = dbservice;
             this.documents = documents;
         }
+        public IActionResult AddOrder()
+        {
+            return View();
+        }
+        public IActionResult Documents()
+        {
+            var orders = new List<OrderModel>()
+            {
+                new OrderModel()
+                {
+                    ClientName = "kola",
+                    Products = new List<Product>()
+                    {
+                        new Product()
+                        {
+                            Id = dbservice.GetProduct(1).Id,
+                            Name = dbservice.GetProduct(1).Name,
+                            Price = dbservice.GetProduct(1).Price,
+                            isCountable = dbservice.GetProduct(1).isCountable,
+                            Count = dbservice.GetProduct(1).Count,
+                            Vat = dbservice.GetProduct(1).Vat
+                        }
+                    },
+                    isInvoke = true,
+                }
+            };
+            foreach (var order in orders)
+            {
+                order.productId = new List<int>();
+                foreach (var product in order.Products)
+                {
+                    order.productId.Add(product.Id);
+                }
+            }
+            return View(orders);
+        }
 
         [Route("Orders")]
         public IActionResult Orders()

@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "AddOrders Page";
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="loginBody">
+    <main class="loginBox">       
+        <header class="loginHeader">Zamówienie</header>
+        <form method="post"> 
+            <div class="loginDiv">
+                <input class="loginInput" placeholder="Nr zamówienia" spellcheck="false" />
+            </div>
+            <div class="loginDiv">
+                <input class="loginInput" placeholder="Nazwa" spellcheck="false" />
+            </div>
+            <div class="loginDiv">
+                <input class="loginInput" type="date" spellcheck="false" />
+            </div><br />
+            <input class="loginInput" type="submit" value="Stwórz zamówienie" />
+         </form>   
+    </main>
+</body>
