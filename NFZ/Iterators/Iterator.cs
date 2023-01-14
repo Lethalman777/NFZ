@@ -8,7 +8,7 @@ namespace NFZ.Iterators
     {
         public int currentNumber = 1;
         public bool isInvoice;
-        IDatabaseService dbservice;
+        public IDatabaseService dbservice;
 
         public Iterator(IDatabaseService dbservice)
         {

@@ -10,8 +10,6 @@
 
         public virtual Worker Worker { get; set; }
 
-        public virtual List<Product> Products { get; set; }
-
         public decimal Price { get; set; }
 
         public DateTime Date { get; set; }

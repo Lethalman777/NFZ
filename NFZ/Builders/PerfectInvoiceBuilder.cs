@@ -1,4 +1,5 @@
 ﻿using NFZ.Entities;
+using NFZ.Iterators;
 using NFZ.Models;
 
 namespace NFZ.Builders
@@ -7,12 +8,14 @@ namespace NFZ.Builders
     {
         DocumentModel invoiceDto;
         Worker worker;
+        Iterator iterator;
         public Invoice invoice;
 
-        public PerfectInvoiceBuilder(DocumentModel invoiceDto, Worker worker)
+        public PerfectInvoiceBuilder(DocumentModel invoiceDto, Worker worker, Iterator iterator)
         {
             this.invoiceDto = invoiceDto;
             this.worker = worker;
+            this.iterator = iterator;
         }
 
         public override void BuildDocument()
@@ -26,15 +29,25 @@ namespace NFZ.Builders
                     Login = worker.Login,
                     Password = worker.Password
                 },
-                Products = new List<Product>(invoiceDto.Products),
                 Price = TotalPrice(invoiceDto.Products),
                 PaymentDate = new DateTime(),
                 ClientName = invoiceDto.ClientName,
                 Number = invoiceDto.Number,
                 NIP = invoiceDto.NIP,
                 AccountNr = invoiceDto.AccountNr,
-                Date = new DateTime()
+                Date = new DateTime(),
+                Products = new List<InvoiceProduct>()
             };
+
+            foreach(var product in invoiceDto.ProductIds)
+            {
+                invoice.Products.Add(new InvoiceProduct()
+                {
+                    InvoiceMany = invoice,
+                    ProductMany = iterator.dbservice.GetProduct(product)
+                });
+            }
+            
         }
 
         public override Invoice GetDocument()

@@ -49,7 +49,7 @@ namespace NFZ.Services
             };
             if (model.isInvoice)
             {
-                builder = new PerfectInvoiceBuilder(model, worker);
+                builder = new PerfectInvoiceBuilder(model, worker, new Iterator(databaseService));
             }
             else
             {
@@ -61,6 +61,11 @@ namespace NFZ.Services
             if (model.isInvoice)
             {
                 var document = (Invoice)builder.GetDocument();
+                //document.Products = new List<Product>();
+                //foreach (var product in model.ProductIds)
+                //{
+                //    document.Products.Add(databaseService.GetProduct(product));
+                //}
                 databaseService.AddInvoice(document);
             }
             else

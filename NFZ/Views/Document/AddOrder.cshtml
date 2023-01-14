@@ -12,10 +12,20 @@
                 <input class="loginInput" placeholder="Nr zamówienia" spellcheck="false" />
             </div>
             <div class="loginDiv">
-                <input class="loginInput" placeholder="Nazwa" spellcheck="false" />
+                <input class="loginInput" placeholder="Nazwa Klienta" spellcheck="false" />
             </div>
             <div class="loginDiv">
-                <input class="loginInput" type="date" spellcheck="false" />
+              @if (!Model.isSelect)
+        {
+           @* <a href='@Url.Action("ShowList", "Document", Model)'>
+            <button class="dodaj_produkt" type="button">Dodaj 3 produkt</button></a>*@ <br />
+        }        
+        else
+        {
+           @* <select asp-items="Model.selectLists" asp-for="selectId">Produkty</select> <br />
+            <a href='@Url.Action("AddProductFromList", "Document", Model)'>
+            <button class="dodaj_produkt" type="button">Dodaj produkt</button></a>*@ <br />
+        }
             </div><br />
             <input class="loginInput" type="submit" value="Stwórz zamówienie" />
          </form>   

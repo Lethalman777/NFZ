@@ -11,5 +11,7 @@ namespace NFZ.Entities
         public int NIP { get; set; }
 
         public int AccountNr { get; set; }
+
+        public List<InvoiceProduct> Products { get; set; }
     }
 }

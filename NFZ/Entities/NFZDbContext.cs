@@ -10,6 +10,9 @@ namespace NFZ.Entities
         }
 
         public DbSet<Order> orders { get; set; }
+        public DbSet<OrderProduct> orderProducts { get; set; }
+        public DbSet<InvoiceProduct> invoiceProducts { get; set; }
+        public DbSet<ReceiptProduct> receiptProducts { get; set; }
         public DbSet<Worker> workers { get; set; }
         public DbSet<Receipt> receipts { get; set; }
         public DbSet<Invoice> invoices { get; set; }
@@ -87,6 +90,22 @@ namespace NFZ.Entities
             modelBuilder.Entity<Order>()
              .Property(a => a.isInvoke)
              .IsRequired();
+
+            modelBuilder
+            .Entity<InvoiceProduct>()
+            .HasKey(t => t.Id);
+
+            modelBuilder
+            .Entity<InvoiceProduct>()
+            .HasOne(c => c.InvoiceMany)
+            .WithMany(c => c.Products)
+            .HasForeignKey(cl => cl.InvoiceId);
+
+            modelBuilder
+           .Entity<InvoiceProduct>()
+           .HasOne(c => c.ProductMany)
+           .WithMany(c => c.invoiceProducts)
+           .HasForeignKey(cl => cl.ProductId);
         }
     }
 }

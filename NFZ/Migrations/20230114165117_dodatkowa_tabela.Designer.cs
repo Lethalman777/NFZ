@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NFZ.Entities;
 
@@ -11,9 +12,11 @@ using NFZ.Entities;
 namespace NFZ.Migrations
 {
     [DbContext(typeof(NFZDbContext))]
-    partial class NFZDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230114165117_dodatkowa_tabela")]
+    partial class dodatkowatabela
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,29 +66,6 @@ namespace NFZ.Migrations
                     b.ToTable("invoices");
                 });
 
-            modelBuilder.Entity("NFZ.Entities.InvoiceProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("InvoiceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("invoiceProducts");
-                });
-
             modelBuilder.Entity("NFZ.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -107,29 +87,6 @@ namespace NFZ.Migrations
                     b.ToTable("orders");
                 });
 
-            modelBuilder.Entity("NFZ.Entities.OrderProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("orderProducts");
-                });
-
             modelBuilder.Entity("NFZ.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -140,6 +97,9 @@ namespace NFZ.Migrations
 
                     b.Property<float>("Count")
                         .HasColumnType("real");
+
+                    b.Property<int?>("InvoiceId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -152,6 +112,9 @@ namespace NFZ.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("ReceiptId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Vat")
                         .HasColumnType("int");
 
@@ -160,7 +123,11 @@ namespace NFZ.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("InvoiceId");
+
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("ReceiptId");
 
                     b.ToTable("products");
                 });
@@ -190,29 +157,6 @@ namespace NFZ.Migrations
                     b.HasIndex("WorkerId");
 
                     b.ToTable("receipts");
-                });
-
-            modelBuilder.Entity("NFZ.Entities.ReceiptProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReceiptId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ReceiptId");
-
-                    b.ToTable("receiptProducts");
                 });
 
             modelBuilder.Entity("NFZ.Entities.Worker", b =>
@@ -259,49 +203,19 @@ namespace NFZ.Migrations
                     b.Navigation("Worker");
                 });
 
-            modelBuilder.Entity("NFZ.Entities.InvoiceProduct", b =>
-                {
-                    b.HasOne("NFZ.Entities.Invoice", "InvoiceMany")
-                        .WithMany("Products")
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NFZ.Entities.Product", "ProductMany")
-                        .WithMany("invoiceProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InvoiceMany");
-
-                    b.Navigation("ProductMany");
-                });
-
-            modelBuilder.Entity("NFZ.Entities.OrderProduct", b =>
-                {
-                    b.HasOne("NFZ.Entities.Order", "OrderMany")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NFZ.Entities.Product", "ProductMany")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderMany");
-
-                    b.Navigation("ProductMany");
-                });
-
             modelBuilder.Entity("NFZ.Entities.Product", b =>
                 {
+                    b.HasOne("NFZ.Entities.Invoice", null)
+                        .WithMany("Products")
+                        .HasForeignKey("InvoiceId");
+
                     b.HasOne("NFZ.Entities.Order", null)
                         .WithMany("Products")
                         .HasForeignKey("OrderId");
+
+                    b.HasOne("NFZ.Entities.Receipt", null)
+                        .WithMany("Products")
+                        .HasForeignKey("ReceiptId");
                 });
 
             modelBuilder.Entity("NFZ.Entities.Receipt", b =>
@@ -315,25 +229,6 @@ namespace NFZ.Migrations
                     b.Navigation("Worker");
                 });
 
-            modelBuilder.Entity("NFZ.Entities.ReceiptProduct", b =>
-                {
-                    b.HasOne("NFZ.Entities.Product", "ProductMany")
-                        .WithMany("receiptProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NFZ.Entities.Receipt", "ReceiptMany")
-                        .WithMany("Products")
-                        .HasForeignKey("ReceiptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProductMany");
-
-                    b.Navigation("ReceiptMany");
-                });
-
             modelBuilder.Entity("NFZ.Entities.Invoice", b =>
                 {
                     b.Navigation("Products");
@@ -342,13 +237,6 @@ namespace NFZ.Migrations
             modelBuilder.Entity("NFZ.Entities.Order", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("NFZ.Entities.Product", b =>
-                {
-                    b.Navigation("invoiceProducts");
-
-                    b.Navigation("receiptProducts");
                 });
 
             modelBuilder.Entity("NFZ.Entities.Receipt", b =>

@@ -13,5 +13,9 @@
         public float Count { get; set; }
 
         public int Vat { get; set; }
+
+        public List<ReceiptProduct> receiptProducts { get; set; }
+
+        public List<InvoiceProduct> invoiceProducts { get; set; }
     }
 }

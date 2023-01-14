@@ -9,6 +9,8 @@ namespace NFZ.Models
 
         public List<Product> Products { get; set; }
 
+        public List<int> ProductIds { get; set; }
+
         public List<SelectListItem> selectLists { get; set; }
 
         public string selectId { get; set; }

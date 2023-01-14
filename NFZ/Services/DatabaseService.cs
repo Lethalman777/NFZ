@@ -67,7 +67,8 @@ namespace NFZ.Services
         {
             if (isInvoice)
             {
-                return _dbContext.invoices.FirstOrDefault(p => p.Number == id);
+                var t = _dbContext.invoices.FirstOrDefault(p => p.Number == id);
+                return t;
             }
             else
             {
@@ -75,16 +76,55 @@ namespace NFZ.Services
             }          
         }
 
+        public List<Document> GetMixedDocuments()
+        {
+            var list = new List<Document>();
+            var k = _dbContext.invoices; 
+            foreach(var item in _dbContext.invoices)
+            {
+                list.Add(item);
+            }
+            foreach (var item in _dbContext.receipts)
+            {
+                list.Add(item);
+            }
+
+            return list;
+        }
+
         public void AddInvoice(Invoice invoice)
         {          
             _dbContext.invoices.Add(invoice);         
             _dbContext.SaveChanges();
+
+            //    _dbContext.invoiceProducts.Add(new InvoiceProduct()
+            //    {
+            //        InvoiceMany = _dbContext.invoices.FirstOrDefault(v=>v.Number==invoice.Number),
+            //        ProductMany = _dbContext.products.FirstOrDefault(v=>v.Id==1)
+            //    });
+
+            //_dbContext.SaveChanges();
+
+            var t = _dbContext.invoices.FirstOrDefault(v => v.Number == invoice.Number);
         }
 
         public void AddReceipt(Receipt receipt)
         {
             _dbContext.receipts.Add(receipt);
             _dbContext.SaveChanges();
+
+            //foreach (var product in receipt.Products)
+            //{
+            //    _dbContext.receiptProducts.Add(new ReceiptProduct()
+            //    {
+            //        ReceiptId = receipt.Id,
+            //        ReceiptMany = receipt,
+            //        ProductId = product.Id,
+            //        ProductMany = product
+            //    });
+
+            //    _dbContext.SaveChanges();
+            //}
         }
 
         public void RemoveDocument(int Id, bool isInvoice)
@@ -118,9 +158,9 @@ namespace NFZ.Services
             }           
         }
 
-        public IEnumerable<Order> GetOrders()
+        public List<Order> GetOrders()
         {
-            return _dbContext.orders;
+            return _dbContext.orders.ToList();
         }
 
         public Order GetOrder(int id)
@@ -131,6 +171,18 @@ namespace NFZ.Services
         public void AddOrder(Order order)
         {
             _dbContext.orders.Add(order);
+
+            foreach(var product in order.Products)
+            {
+                _dbContext.orderProducts.Add(new OrderProduct()
+                {
+                    OrderId = order.Id,
+                    OrderMany = order,
+                    ProductId = product.Id,
+                    ProductMany = product
+                });
+            }
+
             _dbContext.SaveChanges();
         }
 

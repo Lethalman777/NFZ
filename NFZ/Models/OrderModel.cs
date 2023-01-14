@@ -1,4 +1,5 @@
-﻿using NFZ.Entities;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using NFZ.Entities;
 
 namespace NFZ.Models
 {
@@ -11,6 +12,10 @@ namespace NFZ.Models
         public List<Product> Products { get; set; }
 
         public List<int> productId { get; set; }
+
+        public List<SelectListItem> ProductSelectList { get; set; }
+
+        public bool isSelect { get; set; }
 
         public int Price { get; set; }
     }

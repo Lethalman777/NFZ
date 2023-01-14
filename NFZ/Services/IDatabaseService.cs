@@ -10,9 +10,10 @@ namespace NFZ.Services
         void AddProduct(Product product);
         void AddWorker(Worker worker);
         Document GetDocument(int id, bool isInvoice);
+        List<Document> GetMixedDocuments();
         Order GetOrder(int id);
         IEnumerable<Document> GetDocuments(bool isInvoice);
-        IEnumerable<Order> GetOrders();
+        List<Order> GetOrders();
         Product GetProduct(int id);
         List<Product> GetProducts();
         Worker GetWorker(int id);

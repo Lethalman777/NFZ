@@ -26,7 +26,7 @@ namespace NFZ.Builders
                     Login = worker.Login,
                     Password = worker.Password
                 },
-                Products = new List<Product>(receiptDto.Products),
+                //Products = new List<ReceiptProduct>(receiptDto.Products),
                 Price = TotalPrice(receiptDto.Products),
                 Number = receiptDto.Number,
                 Date = new DateTime()
