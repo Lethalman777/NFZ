@@ -67,19 +67,39 @@ namespace NFZ.Services
         {
             if (isInvoice)
             {
-                var t = _dbContext.invoices.FirstOrDefault(p => p.Number == id);
-                return t;
+                var document = _dbContext.invoices.FirstOrDefault(p => p.Number == id);
+                if (document != null)
+                {
+                    document.Products = _dbContext.invoiceProducts.ToList();
+                    document.Products.RemoveAll(v => v.InvoiceId != document.Id);
+                    foreach(var product in document.Products)
+                    {
+                        product.ProductMany = _dbContext.products.FirstOrDefault(v=>v.Id == product.ProductId);
+                    }
+                }
+
+                return document;
             }
             else
             {
-                return _dbContext.receipts.FirstOrDefault(p => p.Number == id);
+                var document = _dbContext.receipts.FirstOrDefault(p => p.Number == id);
+                if (document != null)
+                {
+                    document.Products = _dbContext.receiptProducts.ToList();
+                    document.Products.RemoveAll(v => v.ReceiptId != document.Id);
+                    foreach (var product in document.Products)
+                    {
+                        product.ProductMany = _dbContext.products.FirstOrDefault(v => v.Id == product.ProductId);
+                    }
+                }
+
+                return document;
             }          
         }
 
         public List<Document> GetMixedDocuments()
         {
             var list = new List<Document>();
-            var k = _dbContext.invoices; 
             foreach(var item in _dbContext.invoices)
             {
                 list.Add(item);
@@ -96,35 +116,12 @@ namespace NFZ.Services
         {          
             _dbContext.invoices.Add(invoice);         
             _dbContext.SaveChanges();
-
-            //    _dbContext.invoiceProducts.Add(new InvoiceProduct()
-            //    {
-            //        InvoiceMany = _dbContext.invoices.FirstOrDefault(v=>v.Number==invoice.Number),
-            //        ProductMany = _dbContext.products.FirstOrDefault(v=>v.Id==1)
-            //    });
-
-            //_dbContext.SaveChanges();
-
-            var t = _dbContext.invoices.FirstOrDefault(v => v.Number == invoice.Number);
         }
 
         public void AddReceipt(Receipt receipt)
         {
             _dbContext.receipts.Add(receipt);
             _dbContext.SaveChanges();
-
-            //foreach (var product in receipt.Products)
-            //{
-            //    _dbContext.receiptProducts.Add(new ReceiptProduct()
-            //    {
-            //        ReceiptId = receipt.Id,
-            //        ReceiptMany = receipt,
-            //        ProductId = product.Id,
-            //        ProductMany = product
-            //    });
-
-            //    _dbContext.SaveChanges();
-            //}
         }
 
         public void RemoveDocument(int Id, bool isInvoice)
@@ -171,18 +168,6 @@ namespace NFZ.Services
         public void AddOrder(Order order)
         {
             _dbContext.orders.Add(order);
-
-            foreach(var product in order.Products)
-            {
-                _dbContext.orderProducts.Add(new OrderProduct()
-                {
-                    OrderId = order.Id,
-                    OrderMany = order,
-                    ProductId = product.Id,
-                    ProductMany = product
-                });
-            }
-
             _dbContext.SaveChanges();
         }
 

@@ -8,7 +8,7 @@
 
         public int WorkerId { get; set; }
 
-        public virtual Worker Worker { get; set; }
+        public Worker Worker { get; set; }
 
         public decimal Price { get; set; }
 

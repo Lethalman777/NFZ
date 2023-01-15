@@ -1,4 +1,5 @@
 ﻿using NFZ.Entities;
+using NFZ.Iterators;
 using NFZ.Models;
 
 namespace NFZ.Builders
@@ -6,31 +7,35 @@ namespace NFZ.Builders
     public class PerfectReceiptBuilder : PerfectDocumentBuilder
     {
         DocumentModel receiptDto;
-        Worker worker;
+        Iterator iterator;
         public Receipt receipt;
 
-        public PerfectReceiptBuilder(DocumentModel receiptDto, Worker worker)
+        public PerfectReceiptBuilder(DocumentModel receiptDto, Iterator iterator)
         {
             this.receiptDto = receiptDto;
-            this.worker = worker;
+            this.iterator = iterator;
         }
 
         public override void BuildDocument()
         {
             receipt = new Receipt()
             {
-                Worker = new Worker()
-                {
-                    Name = worker.Name,
-                    Surname = worker.Surname,
-                    Login = worker.Login,
-                    Password = worker.Password
-                },
-                //Products = new List<ReceiptProduct>(receiptDto.Products),
+                Worker = iterator.dbservice.GetWorker(1),
+                WorkerId = iterator.dbservice.GetWorker(1).Id,
+                Products = new List<ReceiptProduct>(),
                 Price = TotalPrice(receiptDto.Products),
                 Number = receiptDto.Number,
                 Date = new DateTime()
             };
+
+            foreach (var product in receiptDto.ProductIds)
+            {
+                receipt.Products.Add(new ReceiptProduct()
+                {
+                    ReceiptMany = receipt,
+                    ProductMany = iterator.dbservice.GetProduct(product)
+                });
+            }
         }
 
         public override Receipt GetDocument()

@@ -25,7 +25,7 @@ namespace NFZ.Controllers
         [Route("Documents")] 
         public IActionResult Documents()
         {
-            var list = dbservice.GetMixedDocuments();
+            var list = dbservice.GetMixedDocuments();           
             
             return View(list);
         }
@@ -49,19 +49,6 @@ namespace NFZ.Controllers
         [Route("Orders")]
         public IActionResult Orders()
         {
-            var t = new Order()
-            {
-                ClientName = "jaki",
-                isInvoke = true,
-                Products = new List<Product>()
-                {
-                     dbservice.GetProduct(1),
-                     dbservice.GetProduct(2)
-                }
-            };
-            dbservice.AddOrder(t);
-            var i = dbservice.GetOrders();
-            //var orders = dbservice.GetOrders().ToList();
             var orders = new List<OrderModel>()
             {
                 new OrderModel()
@@ -69,15 +56,8 @@ namespace NFZ.Controllers
                     ClientName = "kola",
                     Products = new List<Product>()
                     {
-                        new Product()
-                        {
-                            Id = dbservice.GetProduct(1).Id,
-                            Name = dbservice.GetProduct(1).Name,
-                            Price = dbservice.GetProduct(1).Price,
-                            isCountable = dbservice.GetProduct(1).isCountable,
-                            Count = dbservice.GetProduct(1).Count,
-                            Vat = dbservice.GetProduct(1).Vat
-                        }
+                        dbservice.GetProduct(1),
+                        dbservice.GetProduct(2)
                     },
                     isInvoke = true,
                 }
@@ -85,11 +65,12 @@ namespace NFZ.Controllers
             foreach (var order in orders)
             {
                 order.productId = new List<int>();
-                foreach(var product in order.Products)
+                foreach (var product in order.Products)
                 {
                     order.productId.Add(product.Id);
                 }
             }
+
             return View(orders);
         }
 
@@ -102,6 +83,7 @@ namespace NFZ.Controllers
                 order.Products.Add(dbservice.GetProduct(product));
             }
             var document = documents.GetTemplate(order);
+            document.isInvoice = true;
 
             return View(document);
         }
@@ -123,21 +105,15 @@ namespace NFZ.Controllers
                 order.Products.Add(dbservice.GetProduct(product));
             }
             var document = documents.GetTemplate(order);
+            document.isInvoice = false;
+
             return View(document);
         }
 
         [Route("SaveReceipt")]
         public IActionResult SaveReceipt(DocumentModel receipt)
         {
-            var Invoice = new Receipt()
-            {               
-                Price = receipt.Price,               
-                //Products = receipt.Products,
-                Date = new DateTime(),
-                Number = receipt.Number
-            };
-
-            dbservice.AddReceipt(Invoice);
+            documents.SaveDocument(receipt);
 
             return RedirectToAction("Orders");
         }

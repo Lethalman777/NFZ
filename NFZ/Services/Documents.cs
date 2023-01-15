@@ -39,21 +39,14 @@ namespace NFZ.Services
         public void SaveDocument(DocumentModel model)
         {
             PerfectDocumentBuilder builder;
-            Worker worker = new Worker()
-            {
-                Id = 1,
-                Name = databaseService.GetWorker(1).Name,
-                Surname = databaseService.GetWorker(1).Surname,
-                Login = databaseService.GetWorker(1).Login,
-                Password = databaseService.GetWorker(1).Password
-            };
+           
             if (model.isInvoice)
             {
-                builder = new PerfectInvoiceBuilder(model, worker, new Iterator(databaseService));
+                builder = new PerfectInvoiceBuilder(model, new Iterator(databaseService));
             }
             else
             {
-                builder = new PerfectReceiptBuilder(model, worker);
+                builder = new PerfectReceiptBuilder(model, new Iterator(databaseService));
             }
             Director director = new Director();
             director.Construct(builder);
@@ -61,11 +54,6 @@ namespace NFZ.Services
             if (model.isInvoice)
             {
                 var document = (Invoice)builder.GetDocument();
-                //document.Products = new List<Product>();
-                //foreach (var product in model.ProductIds)
-                //{
-                //    document.Products.Add(databaseService.GetProduct(product));
-                //}
                 databaseService.AddInvoice(document);
             }
             else

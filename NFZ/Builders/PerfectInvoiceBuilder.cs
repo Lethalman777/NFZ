@@ -7,14 +7,12 @@ namespace NFZ.Builders
     public class PerfectInvoiceBuilder : PerfectDocumentBuilder
     {
         DocumentModel invoiceDto;
-        Worker worker;
         Iterator iterator;
         public Invoice invoice;
 
-        public PerfectInvoiceBuilder(DocumentModel invoiceDto, Worker worker, Iterator iterator)
+        public PerfectInvoiceBuilder(DocumentModel invoiceDto, Iterator iterator)
         {
             this.invoiceDto = invoiceDto;
-            this.worker = worker;
             this.iterator = iterator;
         }
 
@@ -22,13 +20,8 @@ namespace NFZ.Builders
         {
             invoice = new Invoice()
             {
-                Worker = new Worker()
-                {
-                    Name = worker.Name,
-                    Surname = worker.Surname,
-                    Login = worker.Login,
-                    Password = worker.Password
-                },
+                Worker = iterator.dbservice.GetWorker(1),
+                WorkerId = iterator.dbservice.GetWorker(1).Id,
                 Price = TotalPrice(invoiceDto.Products),
                 PaymentDate = new DateTime(),
                 ClientName = invoiceDto.ClientName,
@@ -46,8 +39,7 @@ namespace NFZ.Builders
                     InvoiceMany = invoice,
                     ProductMany = iterator.dbservice.GetProduct(product)
                 });
-            }
-            
+            }           
         }
 
         public override Invoice GetDocument()

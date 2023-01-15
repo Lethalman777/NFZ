@@ -14,6 +14,8 @@
 
         public int Vat { get; set; }
 
+        public List<OrderProduct> Orders { get; set; }
+
         public List<ReceiptProduct> receiptProducts { get; set; }
 
         public List<InvoiceProduct> invoiceProducts { get; set; }

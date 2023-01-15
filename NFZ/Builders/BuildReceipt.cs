@@ -10,14 +10,12 @@ namespace NFZ.Builders
     {
         OrderModel order;
         Iterator iterator;
-        IDatabaseService databaseService;
         public DocumentModel receiptDto;
 
         public BuildReceipt(OrderModel order, Iterator iterator)
         {
             this.order = order;
             this.iterator = iterator;
-            this.databaseService = databaseService;
         }
 
         public override void BuildTemplate()
@@ -50,11 +48,11 @@ namespace NFZ.Builders
 
         private int GetNumber()
         {
-            iterator.isInvoice = false;
+            iterator.isInvoice = true;
 
             while (!iterator.isDone())
             {
-                iterator.currentNumber++;
+                iterator.Next();
             }
 
             return iterator.currentNumber + 1;

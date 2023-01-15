@@ -95,7 +95,7 @@
                             @obj.Date
                         </td>
                         <td width="15%">
-                            <a href='@Url.Action("ReceiptDetail", "Document", obj.Number)'><button class="paragon" type="button">Szczegóły</button></a>
+                            <a href='@Url.Action("ReceiptDetail", "Document", new {number = obj.Number})'><button class="paragon" type="button">Szczegóły</button></a>
                         </td>
                     </tr>
                 }

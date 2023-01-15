@@ -106,6 +106,38 @@ namespace NFZ.Entities
            .HasOne(c => c.ProductMany)
            .WithMany(c => c.invoiceProducts)
            .HasForeignKey(cl => cl.ProductId);
+
+            modelBuilder
+            .Entity<ReceiptProduct>()
+            .HasKey(t => t.Id);
+
+            modelBuilder
+            .Entity<ReceiptProduct>()
+            .HasOne(c => c.ReceiptMany)
+            .WithMany(c => c.Products)
+            .HasForeignKey(cl => cl.ReceiptId);
+
+            modelBuilder
+           .Entity<ReceiptProduct>()
+           .HasOne(c => c.ProductMany)
+           .WithMany(c => c.receiptProducts)
+           .HasForeignKey(cl => cl.ProductId);
+
+            modelBuilder
+           .Entity<OrderProduct>()
+           .HasKey(t => t.Id);
+
+            modelBuilder
+            .Entity<OrderProduct>()
+            .HasOne(c => c.OrderMany)
+            .WithMany(c => c.Products)
+            .HasForeignKey(cl => cl.OrderId);
+
+            modelBuilder
+           .Entity<OrderProduct>()
+           .HasOne(c => c.ProductMany)
+           .WithMany(c => c.Orders)
+           .HasForeignKey(cl => cl.ProductId);
         }
     }
 }
