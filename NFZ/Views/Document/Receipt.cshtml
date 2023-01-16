@@ -61,7 +61,7 @@
                         @obj.Vat
                     </td>
                     <td width="10%">
-                        @obj.Count
+                        @Model.ProductCounts[Model.Products.IndexOf(obj)]
                     </td>
                     <td width="25%">
                         <a href='@Url.Action("DeleteProduct", "Document", new {model = Model, id = obj.Id})'>
@@ -77,7 +77,7 @@
         }        
         else
         {
-            <select asp-items="Model.selectLists" asp-for="selectId">Produkty</select> <br />
+            <select asp-items="Model.selectLists" asp-for="SelectName">Produkty</select> <br />
             <button class="dodaj_produkt" type="button" asp-action="AddProductFromList" asp-controller="Document">Dodaj produkt</button> <br />
         }
         <a href='@Url.Action("SaveReceipt", "Document", Model)'><button class="paragon" type="button">Dodaj Paragon</button></a> 

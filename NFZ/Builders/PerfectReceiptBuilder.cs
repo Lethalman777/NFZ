@@ -33,7 +33,8 @@ namespace NFZ.Builders
                 receipt.Products.Add(new ReceiptProduct()
                 {
                     ReceiptMany = receipt,
-                    ProductMany = iterator.dbservice.GetProduct(product)
+                    ProductMany = iterator.dbservice.GetProduct(product),
+                    ProductCount = receiptDto.ProductCounts[receiptDto.ProductIds.IndexOf(product)]
                 });
             }
         }

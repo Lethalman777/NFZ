@@ -1,4 +1,5 @@
 ﻿using NFZ.Entities;
+using NFZ.Models;
 
 namespace NFZ.Services
 {
@@ -27,6 +28,11 @@ namespace NFZ.Services
         {
             _dbContext.products.Add(product);
             _dbContext.SaveChanges();
+        }
+
+        public Product GetProductName(string name)
+        {
+            return _dbContext.products.FirstOrDefault(v => v.Name == name);
         }
 
         public void RemoveProduct(int Id)
@@ -144,11 +150,35 @@ namespace NFZ.Services
         {          
             _dbContext.invoices.Add(invoice);         
             _dbContext.SaveChanges();
+            
+            foreach(var product in invoice.Products)
+            {
+                var entity = _dbContext.products.FirstOrDefault(v => v.Id == product.ProductId);
+                if (entity.Count - product.ProductCount < 0)
+                {                    
+                    entity.Count -= product.ProductCount;
+                    _dbContext.products.Update(entity);
+                }
+            }
+
+            _dbContext.SaveChanges();
         }
 
         public void AddReceipt(Receipt receipt)
         {
             _dbContext.receipts.Add(receipt);
+            _dbContext.SaveChanges();
+
+            foreach (var product in receipt.Products)
+            {
+                var entity = _dbContext.products.FirstOrDefault(v => v.Id == product.ProductId);
+                if (entity.Count - product.ProductCount < 0)
+                {
+                    entity.Count -= product.ProductCount;
+                    _dbContext.products.Update(entity);
+                }
+            }
+
             _dbContext.SaveChanges();
         }
 
@@ -188,13 +218,34 @@ namespace NFZ.Services
             return _dbContext.orders.ToList();
         }
 
+        public List<Product> GetProductOrder(int id)
+        {
+            var orders = new List<Product>();
+            var order = _dbContext.orders.FirstOrDefault(r => r.Id == id);
+
+            order.Products = _dbContext.orderProducts.ToList();
+            order.Products.RemoveAll(v => v.OrderId != id);
+
+            foreach(var product in order.Products)
+            {
+                orders.Add(product.ProductMany);
+            }
+
+            return orders;
+        }
+
         public Order GetOrder(int id)
         {
-            return _dbContext.orders.FirstOrDefault(p => p.Id == id);
+            var order = _dbContext.orders.FirstOrDefault(r => r.Id == id);
+
+            order.Products = _dbContext.orderProducts.ToList();
+            order.Products.RemoveAll(v=>v.OrderId != id);
+
+            return order;
         }
 
         public void AddOrder(Order order)
-        {
+        {            
             _dbContext.orders.Add(order);
             _dbContext.SaveChanges();
         }

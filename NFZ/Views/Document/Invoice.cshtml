@@ -65,7 +65,7 @@
                         @obj.Vat
                     </td>
                     <td width="10%">
-                        @obj.Count
+                        @Model.ProductCounts[Model.Products.IndexOf(obj)]
                     </td>
                     <td width="25%">
                        <a href='@Url.Action("DeleteProduct", "Document", new {model = Model, id = obj.Id})'>
@@ -75,6 +75,13 @@
                 }
             </tbody>
         </table>
+       @*  <form class="registerbox" method="post" action="@Url.Action("AddProductFromListDocument", "Document", Model)">
+                 
+                <div class="text-light">Password</div>
+                <td><input type="password" class="form-control" name="password"></td>
+
+                <td><input type="submit"></td>           
+         </form>*@
         @if (!Model.isSelect)
         {
             <a href='@Url.Action("ShowDocumentList", "Document", Model)'>
@@ -82,9 +89,10 @@
         }        
         else
         {
-            <select asp-items="Model.selectLists" asp-for="selectId">Produkty</select> <br />
+            <select asp-items="Model.selectLists" asp-for="@ViewData["selectId"]">Produkty</select> <br />
             <a href='@Url.Action("AddProductFromListDocument", "Document", Model)'>
-            <button class="dodaj_produkt" type="button">Dodaj produkt</button></a> <br />
+                <button class="dodaj_produkt" type="button">Dodaj produkt</button></a>
+             <br />
         }
         <a href='@Url.Action("SaveInvoice", "Document", Model)'>
         <button class="faktura" type="button">Zatwierdź Fakturę</button></a>

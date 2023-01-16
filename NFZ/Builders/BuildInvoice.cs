@@ -24,18 +24,20 @@ namespace NFZ.Builders
             invoiceDto = new DocumentModel()
             {
                 ProductIds = new List<int>(),
+                ProductCounts = new List<float>(),
                 Products = new List<Product>(order.Products),
                 Price = TotalPrice(order.Products),
-                PaymentDate = new DateTime(),
+                PaymentDate = DateTime.Now,
                 ClientName = order.ClientName,
                 Number = GetNumber(),
                 isInvoice = true,
-                selectId = ""
+                SelectName = ""
             };
-
+            var r = new Random();
             foreach(var product in order.Products)
             {
                 invoiceDto.ProductIds.Add(product.Id);
+                invoiceDto.ProductCounts.Add((float)r.Next(1,(int)product.Count));
             }
         }
 
