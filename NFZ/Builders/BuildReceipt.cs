@@ -26,8 +26,15 @@ namespace NFZ.Builders
                 Price = TotalPrice(order.Products),
                 Number = GetNumber(),
                 isInvoice = false,
-                selectId = ""
+                SelectName = ""
             };
+
+            var r = new Random();
+            foreach (var product in order.Products)
+            {
+                receiptDto.ProductIds.Add(product.Id);
+                receiptDto.ProductCounts.Add((float)r.Next(1, (int)product.Count));
+            }
         }
 
         public override DocumentModel GetTemplate()

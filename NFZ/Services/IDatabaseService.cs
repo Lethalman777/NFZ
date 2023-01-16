@@ -1,4 +1,5 @@
 ﻿using NFZ.Entities;
+using NFZ.Models;
 
 namespace NFZ.Services
 {
@@ -22,5 +23,7 @@ namespace NFZ.Services
         void RemoveOrder(int Id);
         void RemoveProduct(int Id);
         void RemoveWorker(int Id);
+        Product GetProductName(string selectName);
+        List<Product> GetProductOrder(int id);
     }
 }

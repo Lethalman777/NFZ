@@ -11,9 +11,11 @@ namespace NFZ.Models
 
         public List<int> ProductIds { get; set; }
 
+        public List<float> ProductCounts { get; set; }
+
         public List<SelectListItem> selectLists { get; set; }
 
-        public string selectId { get; set; }
+        public string SelectName { get; set; } = "1";
 
         public decimal Price { get; set; }
 
