@@ -11,5 +11,7 @@
         public Receipt ReceiptMany { get; set; }
 
         public Product ProductMany { get; set; }
+
+        public float ProductCount { get; set; }
     }
 }

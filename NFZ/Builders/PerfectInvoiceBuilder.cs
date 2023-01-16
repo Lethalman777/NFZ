@@ -37,7 +37,8 @@ namespace NFZ.Builders
                 invoice.Products.Add(new InvoiceProduct()
                 {
                     InvoiceMany = invoice,
-                    ProductMany = iterator.dbservice.GetProduct(product)
+                    ProductMany = iterator.dbservice.GetProduct(product),
+                    ProductCount = invoiceDto.ProductCounts[invoiceDto.ProductIds.IndexOf(product)]
                 });
             }           
         }

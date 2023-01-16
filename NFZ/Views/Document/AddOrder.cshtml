@@ -7,16 +7,15 @@
 </head>
 <body class="loginBody">
     <main class="loginBox">       
-        <header class="loginHeader">Zamówienie</header>
-        <form method="post"> 
+        <header class="loginHeader">Zamówienie</header> 
             <div class="loginDiv">
-                <input class="loginInput" placeholder="Nr zamówienia" spellcheck="false" />
+                <input class="loginInput" asp-for="ClientName" placeholder="Model.ClientName"/>
             </div>
             <div class="loginDiv">
-                <input class="loginInput" placeholder="Nazwa Klienta" spellcheck="false" />
-            </div>
-            <div class="loginDiv">
-              @if (!Model.isSelect)
+                <input class="loginInput" asp-for="isInvoke" />
+            </div> 
+            <div>
+          @if (!Model.isSelect)
         {
             <a href='@Url.Action("ShowOrderList", "Document", Model)'>
             <button class="dodaj_produkt" type="button">Dodaj 3 produkt</button></a> <br />
@@ -27,8 +26,8 @@
             <a href='@Url.Action("AddProductFromListOrder", "Document", Model)'>
             <button class="dodaj_produkt" type="button">Dodaj produkt</button></a> <br />
         }
-            </div><br />
-            <input class="loginInput" type="submit" value="Stwórz zamówienie" />
-         </form>   
+        </div>
+         <a href='@Url.Action("SaveOrder", "Document", new{model=Model})'>
+        <button class="faktura" type="button">ZŁóż Zamówienie</button></a>
     </main>
 </body>

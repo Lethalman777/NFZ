@@ -11,5 +11,7 @@
         public Order OrderMany { get; set; }
 
         public Product ProductMany { get; set; }
+
+        public float ProductCount { get; set; }
     }
 }

@@ -21,8 +21,39 @@ namespace NFZ.Controllers
         [Route("AddToOrder")]
         public IActionResult AddOrder()
         {
-            var order = new OrderModel();
+            var order = new OrderModel()
+            {
+                productId = new List<int>(),
+                isInvoke = true,
+                Price = 0,
+                ClientName = "ios",
+                isSelect = false
+            };
             return View(order);
+        }
+
+        [Route("SaveOrder")]
+        public IActionResult SaveOrder(OrderModel model)
+        {
+            var order = new Order()
+            {
+                Products = new List<OrderProduct>(),
+                isInvoke = model.isInvoke,
+                ClientName = model.ClientName
+            };
+
+            foreach (var id in model.productId)
+            {
+                order.Products.Add(new OrderProduct()
+                {
+                    OrderMany = order,
+                    ProductMany = dbservice.GetProduct(id),
+                    ProductCount = 10
+                });
+            }
+
+            dbservice.AddOrder(order);
+            return RedirectToAction("Orders");
         }
 
         [Route("Documents")] 
@@ -56,13 +87,50 @@ namespace NFZ.Controllers
             {
                 new OrderModel()
                 {
-                    ClientName = "kola",
+                    Id = 1,
+                    ClientName = "Dawid",
                     Products = new List<Product>()
                     {
                         dbservice.GetProduct(1),
                         dbservice.GetProduct(2)
                     },
                     isInvoke = true,
+                },
+                new OrderModel()
+                {
+                    Id = 2,
+                    ClientName = "Łukasz",
+                    Products = new List<Product>()
+                    {
+                        dbservice.GetProduct(1),
+                        dbservice.GetProduct(2)
+                    },
+                    isInvoke = false,
+                },
+                new OrderModel()
+                {
+                    Id = 3,
+                    ClientName = "Janusz",
+                    Products = new List<Product>()
+                    {
+                        dbservice.GetProduct(1),
+                        dbservice.GetProduct(2),
+                        dbservice.GetProduct(3)
+                    },
+                    isInvoke = true,
+                },
+                new OrderModel()
+                {
+                    Id = 4,
+                    ClientName = "Aureliusz",
+                    Products = new List<Product>()
+                    {
+                        dbservice.GetProduct(1),
+                        dbservice.GetProduct(2),
+                        dbservice.GetProduct(3),
+                        dbservice.GetProduct(4)
+                    },
+                    isInvoke = false,
                 }
             };
             foreach (var order in orders)
@@ -73,6 +141,25 @@ namespace NFZ.Controllers
                     order.productId.Add(product.Id);
                 }
             }
+
+            //var r = dbservice.GetOrders();
+            //List<OrderModel> list = new List<OrderModel>();
+
+            //foreach (var order in r)
+            //{
+            //    var q = new OrderModel()
+            //    {
+            //        ClientName = order.ClientName,
+            //        isInvoke = order.isInvoke,
+            //        Products = dbservice.GetProductOrder(order.Id)
+            //    };
+            //    list.Add(q);
+            //    q.productId = new List<int>();
+            //    foreach (var product in q.Products)
+            //    {
+            //        q.productId.Add(product.Id);
+            //    }
+            //}
 
             return View(orders);
         }
@@ -124,7 +211,7 @@ namespace NFZ.Controllers
         public IActionResult ShowDocumentList(DocumentModel model)
         {     
             model.isSelect = true;
-            model.selectId = "";
+            model.SelectName = "";
 
             List<SelectListItem> list = new List<SelectListItem>();
             foreach (var product in dbservice.GetProducts())
@@ -168,25 +255,30 @@ namespace NFZ.Controllers
             {
                 model.Products.Add(dbservice.GetProduct(id));
             }
-            model.Products.Add(dbservice.GetProduct(int.Parse(model.selectId)));
+
+            var product = dbservice.GetProduct(int.Parse(model.SelectName));
+            model.Products.Add(product);
+            model.ProductIds.Add(product.Id);
 
             model.isSelect = false;
-            model.selectId = "";
+            model.SelectName = "";
 
             return View("Invoice", model);
         }
 
         public IActionResult AddProductFromListOrder(OrderModel model)
         {
-            model.Products.Add(new Product()
+            model.Products = new List<Product>();
+            foreach (var id in model.productId)
             {
-                Id = dbservice.GetProduct(int.Parse(model.selectId)).Id,
-                Name = dbservice.GetProduct(int.Parse(model.selectId)).Name,
-                Price = dbservice.GetProduct(int.Parse(model.selectId)).Price,
-                isCountable = dbservice.GetProduct(int.Parse(model.selectId)).isCountable,
-                Vat = dbservice.GetProduct(int.Parse(model.selectId)).Vat,
-                Count = dbservice.GetProduct(int.Parse(model.selectId)).Count
-            });
+                model.Products.Add(dbservice.GetProduct(id));
+            }
+
+            model.Products.Add(dbservice.GetProduct(int.Parse(model.selectId)));
+
+            var product = dbservice.GetProduct(int.Parse(model.selectId));
+            model.Products.Add(product);
+            model.productId.Add(product.Id);
 
             model.isSelect = false;
             model.selectId = "";
