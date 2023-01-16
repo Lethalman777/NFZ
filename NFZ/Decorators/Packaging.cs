@@ -2,26 +2,11 @@
 
 namespace NFZ.Decorators
 {
-    public class Packaging : Order
+    public class Packaging : IPackaging
     {
-        private Order order { get; set; }
         private float cena { get; set; }
-        private String opis { get; set; }
-        public Packaging(Order order)
-        {
-            this.order = order;
-            this.cena = 1;
-            this.opis = "Opakowanie";
-        }
-
-        public float Cena()
-        {
-            return 1;
-        }
-
-        public String Opis()
-        {
-            return "Opakowanie: ";
-        }
+        private string opis { get; set; }
+        public float Cena() { return cena; }
+        public String Opis() { return opis="Opakowanie"; }      
     }
 }
