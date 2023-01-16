@@ -15,6 +15,8 @@ namespace NFZ.Models
 
         public List<SelectListItem> ProductSelectList { get; set; }
 
+        public string selectId { get; set; }
+
         public bool isSelect { get; set; }
 
         public int Price { get; set; }

@@ -77,13 +77,13 @@
         </table>
         @if (!Model.isSelect)
         {
-            <a href='@Url.Action("ShowList", "Document", Model)'>
+            <a href='@Url.Action("ShowDocumentList", "Document", Model)'>
             <button class="dodaj_produkt" type="button">Dodaj 3 produkt</button></a> <br />
         }        
         else
         {
             <select asp-items="Model.selectLists" asp-for="selectId">Produkty</select> <br />
-            <a href='@Url.Action("AddProductFromList", "Document", Model)'>
+            <a href='@Url.Action("AddProductFromListDocument", "Document", Model)'>
             <button class="dodaj_produkt" type="button">Dodaj produkt</button></a> <br />
         }
         <a href='@Url.Action("SaveInvoice", "Document", Model)'>

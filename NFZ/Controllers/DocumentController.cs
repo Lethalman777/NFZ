@@ -17,9 +17,12 @@ namespace NFZ.Controllers
             this.dbservice = dbservice;
             this.documents = documents;
         }
+
+        [Route("AddToOrder")]
         public IActionResult AddOrder()
         {
-            return View();
+            var order = new OrderModel();
+            return View(order);
         }
 
         [Route("Documents")] 
@@ -118,7 +121,7 @@ namespace NFZ.Controllers
             return RedirectToAction("Orders");
         }
 
-        public IActionResult ShowList(DocumentModel model)
+        public IActionResult ShowDocumentList(DocumentModel model)
         {     
             model.isSelect = true;
             model.selectId = "";
@@ -138,7 +141,42 @@ namespace NFZ.Controllers
             return View("Invoice", model);
         }
 
-        public IActionResult AddProductFromList(DocumentModel model)
+        public IActionResult ShowOrderList(OrderModel model)
+        {
+            model.isSelect = true;
+            model.selectId = "";
+
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var product in dbservice.GetProducts())
+            {
+                list.Add(new SelectListItem()
+                {
+                    Text = product.Name,
+                    Value = product.Id.ToString()
+                });
+            }
+
+            model.ProductSelectList = list;
+
+            return View("AddOrder", model);
+        }
+
+        public IActionResult AddProductFromListDocument(DocumentModel model)
+        {
+            model.Products = new List<Product>();
+            foreach(var id in model.ProductIds)
+            {
+                model.Products.Add(dbservice.GetProduct(id));
+            }
+            model.Products.Add(dbservice.GetProduct(int.Parse(model.selectId)));
+
+            model.isSelect = false;
+            model.selectId = "";
+
+            return View("Invoice", model);
+        }
+
+        public IActionResult AddProductFromListOrder(OrderModel model)
         {
             model.Products.Add(new Product()
             {
@@ -153,7 +191,7 @@ namespace NFZ.Controllers
             model.isSelect = false;
             model.selectId = "";
 
-            return View("Invoice", model);
+            return View("Order", model);
         }
 
         public IActionResult DeleteProduct(DocumentModel model, int id)

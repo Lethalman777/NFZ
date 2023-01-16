@@ -97,6 +97,34 @@ namespace NFZ.Services
             }          
         }
 
+        public List<Product> GetProductsDocument(int id, bool isInvoice)
+        {
+            if (isInvoice)
+            {
+                var products = _dbContext.invoiceProducts.ToList();
+                products.RemoveAll(v => v.InvoiceId != id);
+                List<Product> list = new List<Product>();
+                foreach(var product in products)
+                {
+                    list.Add(_dbContext.products.FirstOrDefault(v => v.Id == product.ProductId));
+                }
+               
+                return list;
+            }
+            else
+            {
+                var products = _dbContext.receiptProducts.ToList();
+                products.RemoveAll(v => v.ReceiptId != id);
+                List<Product> list = new List<Product>();
+                foreach (var product in products)
+                {
+                    list.Add(_dbContext.products.FirstOrDefault(v => v.Id == product.ProductId));
+                }
+
+                return list;
+            }
+        }
+
         public List<Document> GetMixedDocuments()
         {
             var list = new List<Document>();
