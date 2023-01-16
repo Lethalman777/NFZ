@@ -3,7 +3,7 @@
     public class CardboardDecorator : PackagingDecorator
     {
         public CardboardDecorator(IPackaging packaging) : base(packaging) { }
-        public override float Cena() 
+        public override decimal Cena() 
         {
             return base.Cena() + 10;
         }

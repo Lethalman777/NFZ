@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NFZ.Decorators;
 using NFZ.Entities;
 using NFZ.Iterators;
 using NFZ.Seeder;
@@ -13,6 +14,7 @@ builder.Services.AddScoped<DocumentSeeder>();
 builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 builder.Services.AddScoped<IIterator, Iterator>();
 builder.Services.AddScoped<IDocuments, Documents>();
+builder.Services.AddScoped<IPackaging, Packaging>();
 
 builder.Services.AddDbContext<NFZDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

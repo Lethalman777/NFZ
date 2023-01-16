@@ -74,18 +74,11 @@
                 </tr>
                 }
             </tbody>
-        </table>
-       @*  <form class="registerbox" method="post" action="@Url.Action("AddProductFromListDocument", "Document", Model)">
-                 
-                <div class="text-light">Password</div>
-                <td><input type="password" class="form-control" name="password"></td>
-
-                <td><input type="submit"></td>           
-         </form>*@
+        </table>    
         @if (!Model.isSelect)
         {
             <a href='@Url.Action("ShowDocumentList", "Document", Model)'>
-            <button class="dodaj_produkt" type="button">Dodaj 3 produkt</button></a> <br />
+            <button class="dodaj_produkt" type="button">Dodaj produkt</button></a> <br />
         }        
         else
         {

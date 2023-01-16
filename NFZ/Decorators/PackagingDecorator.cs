@@ -7,7 +7,7 @@
         {
             _packaging = packaging;
         }
-        public virtual float Cena() { return _packaging.Cena(); }
+        public virtual decimal Cena() { return _packaging.Cena(); }
         public virtual String Opis() { return _packaging.Opis(); }
     }
 }

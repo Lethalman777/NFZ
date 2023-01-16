@@ -2,7 +2,7 @@
 {
     public interface IPackaging
     {
-        public float Cena();
+        public decimal Cena();
         public String Opis();
     }
 }

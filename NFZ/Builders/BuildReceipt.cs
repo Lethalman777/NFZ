@@ -26,10 +26,12 @@ namespace NFZ.Builders
                 Price = TotalPrice(order.Products),
                 Number = GetNumber(),
                 isInvoice = false,
-                SelectName = ""
+                SelectName = "",
+                ProductIds = new List<int>()
             };
 
             var r = new Random();
+            
             foreach (var product in order.Products)
             {
                 receiptDto.ProductIds.Add(product.Id);

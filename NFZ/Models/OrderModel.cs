@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using NFZ.Decorators;
 using NFZ.Entities;
 
 namespace NFZ.Models
@@ -21,6 +22,10 @@ namespace NFZ.Models
 
         public bool isSelect { get; set; }
 
-        public int Price { get; set; }
+        public decimal Price { get; set; }
+
+        public IPackaging Packaging { get; set; }
+
+        public DateTime Date{ get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NFZ.Builders;
+using NFZ.Decorators;
 using NFZ.Entities;
 using NFZ.Models;
 using NFZ.Services;
@@ -11,11 +12,13 @@ namespace NFZ.Controllers
     {
         private readonly IDatabaseService dbservice;
         private readonly IDocuments documents;
+        private readonly IPackaging packaging;
 
-        public DocumentController(IDatabaseService dbservice, IDocuments documents)
+        public DocumentController(IDatabaseService dbservice, IDocuments documents, IPackaging packaging)
         {
             this.dbservice = dbservice;
             this.documents = documents;
+            this.packaging = packaging;
         }
 
         [Route("AddToOrder")]
@@ -95,6 +98,8 @@ namespace NFZ.Controllers
                         dbservice.GetProduct(2)
                     },
                     isInvoke = true,
+                    Packaging = new PalleteDecorator(packaging),
+                    Date = DateTime.Now
                 },
                 new OrderModel()
                 {
@@ -106,6 +111,8 @@ namespace NFZ.Controllers
                         dbservice.GetProduct(2)
                     },
                     isInvoke = false,
+                    Packaging = new PalleteDecorator(packaging),
+                    Date = DateTime.Now
                 },
                 new OrderModel()
                 {
@@ -118,6 +125,8 @@ namespace NFZ.Controllers
                         dbservice.GetProduct(3)
                     },
                     isInvoke = true,
+                    Packaging = new EnvelopeDecorator(packaging),
+                    Date = DateTime.Now
                 },
                 new OrderModel()
                 {
@@ -131,14 +140,18 @@ namespace NFZ.Controllers
                         dbservice.GetProduct(4)
                     },
                     isInvoke = false,
+                    Packaging = new CardboardDecorator(packaging),
+                    Date = DateTime.Now
                 }
             };
             foreach (var order in orders)
             {
+                order.Price = 0;
                 order.productId = new List<int>();
                 foreach (var product in order.Products)
                 {
                     order.productId.Add(product.Id);
+                    order.Price += product.Price;
                 }
             }
 

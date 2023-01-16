@@ -7,6 +7,8 @@ namespace NFZ.Services
     {
         DocumentModel GetTemplate(OrderModel order);
         void SaveDocument(DocumentModel document);
-        List<Document> GetDocuments(List<string> types);
+
+        //Funkcja wyłączona z użytku
+        //List<Document> GetDocuments(List<string> types);
     }
 }
