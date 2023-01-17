@@ -6,6 +6,8 @@
 
         public int Number { get; set; }
 
+        public string ClientName { get; set; }
+
         public int WorkerId { get; set; }
 
         public Worker Worker { get; set; }

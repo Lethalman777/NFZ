@@ -142,6 +142,19 @@ namespace NFZ.Controllers
                     isInvoke = false,
                     Packaging = new CardboardDecorator(packaging),
                     Date = DateTime.Now
+                },
+                new OrderModel()
+                {
+                    Id = 5,
+                    ClientName = "Edyta",
+                    Products = new List<Product>()
+                    {
+                        dbservice.GetProduct(1),
+                        dbservice.GetProduct(3)
+                    },
+                    isInvoke = false,
+                    Packaging = new PalleteDecorator(packaging),
+                    Date = DateTime.Now
                 }
             };
             foreach (var order in orders)
@@ -166,6 +179,7 @@ namespace NFZ.Controllers
             {
                 order.Products.Add(dbservice.GetProduct(product));
             }
+            order.isInvoke = true;
             var document = documents.GetTemplate(order);
             document.isInvoice = true;
 
@@ -188,6 +202,7 @@ namespace NFZ.Controllers
             {
                 order.Products.Add(dbservice.GetProduct(product));
             }
+            order.isInvoke = false;
             var document = documents.GetTemplate(order);
             document.isInvoice = false;
 
@@ -222,25 +237,27 @@ namespace NFZ.Controllers
             return View("Invoice", model);
         }
 
-        public IActionResult ShowOrderList(OrderModel model)    //Wyświetlenie listy zamówień
-        {
-            model.isSelect = true;
-            model.selectId = "";
+        //Funkcja wyłączona z użytkowania 
 
-            List<SelectListItem> list = new List<SelectListItem>();
-            foreach (var product in dbservice.GetProducts())
-            {
-                list.Add(new SelectListItem()
-                {
-                    Text = product.Name,
-                    Value = product.Id.ToString()
-                });
-            }
+        //public IActionResult ShowOrderList(OrderModel model)    //Wyświetlenie listy zamówień
+        //{
+        //    model.isSelect = true;
+        //    model.selectId = "";
 
-            model.ProductSelectList = list;
+        //    List<SelectListItem> list = new List<SelectListItem>();
+        //    foreach (var product in dbservice.GetProducts())
+        //    {
+        //        list.Add(new SelectListItem()
+        //        {
+        //            Text = product.Name,
+        //            Value = product.Id.ToString()
+        //        });
+        //    }
 
-            return View("AddOrder", model);
-        }
+        //    model.ProductSelectList = list;
+
+        //    return View("AddOrder", model);
+        //}
 
         public IActionResult AddProductFromListDocument(DocumentModel model) 
         {
@@ -260,25 +277,27 @@ namespace NFZ.Controllers
             return View("Invoice", model);
         }
 
-        public IActionResult AddProductFromListOrder(OrderModel model)
-        {
-            model.Products = new List<Product>();
-            foreach (var id in model.productId)
-            {
-                model.Products.Add(dbservice.GetProduct(id));
-            }
+        //Funkcja wyłączona z użytkowania
 
-            model.Products.Add(dbservice.GetProduct(int.Parse(model.selectId)));
+        //public IActionResult AddProductFromListOrder(OrderModel model)
+        //{
+        //    model.Products = new List<Product>();
+        //    foreach (var id in model.productId)
+        //    {
+        //        model.Products.Add(dbservice.GetProduct(id));
+        //    }
 
-            var product = dbservice.GetProduct(int.Parse(model.selectId));
-            model.Products.Add(product);
-            model.productId.Add(product.Id);
+        //    model.Products.Add(dbservice.GetProduct(int.Parse(model.selectId)));
 
-            model.isSelect = false;
-            model.selectId = "";
+        //    var product = dbservice.GetProduct(int.Parse(model.selectId));
+        //    model.Products.Add(product);
+        //    model.productId.Add(product.Id);
 
-            return View("Order", model);
-        }
+        //    model.isSelect = false;
+        //    model.selectId = "";
+
+        //    return View("Order", model);
+        //}
 
         public IActionResult DeleteProduct(DocumentModel model, int id) //Usunięcie produktu
         {

@@ -24,10 +24,12 @@ namespace NFZ.Builders
             {
                 ProductCounts = new List<float>(),
                 Products = new List<Product>(order.Products),
-                Price = TotalPrice(order.Products),
+                Price = order.Price,
                 Number = GetNumber(),
+                ClientName = order.ClientName,
                 isInvoice = false,
                 SelectName = "",
+                Date = DateTime.Now,
                 ProductIds = new List<int>()
             };
 

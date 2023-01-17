@@ -22,13 +22,13 @@ namespace NFZ.Builders
             {
                 Worker = iterator.dbservice.GetWorker(1),
                 WorkerId = iterator.dbservice.GetWorker(1).Id,
-                Price = TotalPrice(invoiceDto.Products),
-                PaymentDate = new DateTime(),
+                Price = invoiceDto.Price,
+                PaymentDate = invoiceDto.PaymentDate,
                 ClientName = invoiceDto.ClientName,
                 Number = invoiceDto.Number,
                 NIP = invoiceDto.NIP,
                 AccountNr = invoiceDto.AccountNr,
-                Date = new DateTime(),
+                Date = invoiceDto.Date,
                 Products = new List<InvoiceProduct>()
             };
 

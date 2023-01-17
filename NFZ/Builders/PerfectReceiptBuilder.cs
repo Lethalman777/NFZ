@@ -23,9 +23,10 @@ namespace NFZ.Builders
                 Worker = iterator.dbservice.GetWorker(1),
                 WorkerId = iterator.dbservice.GetWorker(1).Id,
                 Products = new List<ReceiptProduct>(),
-                Price = TotalPrice(receiptDto.Products),
+                Price = receiptDto.Price,
                 Number = receiptDto.Number,
-                Date = new DateTime()
+                ClientName = receiptDto.ClientName,
+                Date = receiptDto.Date
             };
 
             foreach (var product in receiptDto.ProductIds)

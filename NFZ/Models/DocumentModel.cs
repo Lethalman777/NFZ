@@ -20,6 +20,8 @@ namespace NFZ.Models
         public decimal Price { get; set; }
 
         public DateTime PaymentDate { get; set; }
+        
+        public DateTime Date { get; set; }
 
         public string ClientName { get; set; }
 

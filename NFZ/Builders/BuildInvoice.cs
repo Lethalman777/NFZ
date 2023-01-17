@@ -26,12 +26,15 @@ namespace NFZ.Builders
                 ProductIds = new List<int>(),
                 ProductCounts = new List<float>(),
                 Products = new List<Product>(order.Products),
-                Price = TotalPrice(order.Products),
-                PaymentDate = DateTime.Now,
+                Price = order.Price,
+                PaymentDate = DateTime.Now.AddDays(30),
+                Date = DateTime.Now,
                 ClientName = order.ClientName,
                 Number = GetNumber(),
                 isInvoice = true,
-                SelectName = ""
+                SelectName = "",
+                NIP = 66666666,
+                AccountNr = 60670000
             };
             var r = new Random();
             foreach(var product in order.Products)
