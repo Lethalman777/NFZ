@@ -14,7 +14,7 @@ namespace NFZ.Controllers
         private readonly IDocuments documents;
         private readonly IPackaging packaging;
 
-        public DocumentController(IDatabaseService dbservice, IDocuments documents, IPackaging packaging)
+        public DocumentController(IDatabaseService dbservice, IDocuments documents, IPackaging packaging)   //Konstruktor zawierający wszystkie servicy
         {
             this.dbservice = dbservice;
             this.documents = documents;
@@ -22,7 +22,7 @@ namespace NFZ.Controllers
         }
 
         [Route("AddToOrder")]
-        public IActionResult AddOrder()
+        public IActionResult AddOrder()     //Dodanie zamówienia
         {
             var order = new OrderModel()
             {
@@ -36,7 +36,7 @@ namespace NFZ.Controllers
         }
 
         [Route("SaveOrder")]
-        public IActionResult SaveOrder(OrderModel model)
+        public IActionResult SaveOrder(OrderModel model)    //Zapisanie zamówienia
         {
             var order = new Order()
             {
@@ -60,7 +60,7 @@ namespace NFZ.Controllers
         }
 
         [Route("Documents")] 
-        public IActionResult Documents()
+        public IActionResult Documents()    //Zwraca listę dokumentów
         {
             var list = dbservice.GetMixedDocuments();           
             
@@ -68,7 +68,7 @@ namespace NFZ.Controllers
         }
 
         [Route("InvoiceDetail")]
-        public IActionResult InvoiceDetail(int number)
+        public IActionResult InvoiceDetail(int number)  //Zwraca konkretą faktórę o numerze podanym w parametrze
         {
             var model = dbservice.GetDocument(number, true);
 
@@ -76,7 +76,7 @@ namespace NFZ.Controllers
         }
 
         [Route("ReceiptDetail")]
-        public IActionResult ReceiptDetail(int number)
+        public IActionResult ReceiptDetail(int number)  //Zwraca paragon o numerze podanym w parametrze
         {
             var model = dbservice.GetDocument(number, false);
 
@@ -84,7 +84,7 @@ namespace NFZ.Controllers
         }
 
         [Route("Orders")]
-        public IActionResult Orders()
+        public IActionResult Orders()   //Zwraca listę zamówień
         {
             var orders = new List<OrderModel>()
             {
@@ -155,30 +155,11 @@ namespace NFZ.Controllers
                 }
             }
 
-            //var r = dbservice.GetOrders();
-            //List<OrderModel> list = new List<OrderModel>();
-
-            //foreach (var order in r)
-            //{
-            //    var q = new OrderModel()
-            //    {
-            //        ClientName = order.ClientName,
-            //        isInvoke = order.isInvoke,
-            //        Products = dbservice.GetProductOrder(order.Id)
-            //    };
-            //    list.Add(q);
-            //    q.productId = new List<int>();
-            //    foreach (var product in q.Products)
-            //    {
-            //        q.productId.Add(product.Id);
-            //    }
-            //}
-
             return View(orders);
         }
 
         [Route("Invoice")]
-        public IActionResult Invoice(OrderModel order)
+        public IActionResult Invoice(OrderModel order)  //Zwraca Fakturę
         {
             order.Products = new List<Product>();
             foreach(var product in order.productId)
@@ -192,7 +173,7 @@ namespace NFZ.Controllers
         }
 
         [Route("SaveInvoice")]
-        public IActionResult SaveInvoice(DocumentModel invoice)
+        public IActionResult SaveInvoice(DocumentModel invoice) //Zapisanie faktury
         {
             documents.SaveDocument(invoice);
           
@@ -200,7 +181,7 @@ namespace NFZ.Controllers
         }
 
         [Route("Receipt")]
-        public IActionResult Receipt(OrderModel order)
+        public IActionResult Receipt(OrderModel order)  //
         {
             order.Products = new List<Product>();
             foreach (var product in order.productId)
@@ -214,14 +195,14 @@ namespace NFZ.Controllers
         }
 
         [Route("SaveReceipt")]
-        public IActionResult SaveReceipt(DocumentModel receipt)
+        public IActionResult SaveReceipt(DocumentModel receipt) //Zapisanie paragonu
         {
             documents.SaveDocument(receipt);
 
             return RedirectToAction("Orders");
         }
 
-        public IActionResult ShowDocumentList(DocumentModel model)
+        public IActionResult ShowDocumentList(DocumentModel model)  //Zwraca listę wszystkich dokumentów
         {     
             model.isSelect = true;
             model.SelectName = "";
@@ -241,7 +222,7 @@ namespace NFZ.Controllers
             return View("Invoice", model);
         }
 
-        public IActionResult ShowOrderList(OrderModel model)
+        public IActionResult ShowOrderList(OrderModel model)    //Wyświetlenie listy zamówień
         {
             model.isSelect = true;
             model.selectId = "";
@@ -261,7 +242,7 @@ namespace NFZ.Controllers
             return View("AddOrder", model);
         }
 
-        public IActionResult AddProductFromListDocument(DocumentModel model)
+        public IActionResult AddProductFromListDocument(DocumentModel model) 
         {
             model.Products = new List<Product>();
             foreach(var id in model.ProductIds)
@@ -299,7 +280,7 @@ namespace NFZ.Controllers
             return View("Order", model);
         }
 
-        public IActionResult DeleteProduct(DocumentModel model, int id)
+        public IActionResult DeleteProduct(DocumentModel model, int id) //Usunięcie produktu
         {
             var product = model.Products.FirstOrDefault(x => x.Id == id);
             model.Products.Remove(product);

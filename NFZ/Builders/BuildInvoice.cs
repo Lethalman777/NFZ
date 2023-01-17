@@ -13,14 +13,14 @@ namespace NFZ.Builders
         DatabaseService databaseService;
         public DocumentModel invoiceDto;
 
-        public BuildInvoice(OrderModel order, Iterator iterator)
+        public BuildInvoice(OrderModel order, Iterator iterator)  //Konstruktor
         {
             this.order = order;
             this.iterator = iterator;
         }
 
-        public override void BuildTemplate()
-        {
+        public override void BuildTemplate()        //Nadpisanie metody BuildTemplate znajdującej się w klasie 
+        {                                           //DocumentBuilder 
             invoiceDto = new DocumentModel()
             {
                 ProductIds = new List<int>(),
@@ -41,12 +41,12 @@ namespace NFZ.Builders
             }
         }
 
-        public override DocumentModel GetTemplate()
+        public override DocumentModel GetTemplate()     //Nadpisanie metody pobrania szablonu faktury
         {
             return invoiceDto;
         }
 
-        private decimal TotalPrice(List<Product> products)
+        private decimal TotalPrice(List<Product> products)  //Wyliczenie całkowitej kwoty na fakturze
         {
             decimal total = 0;
             foreach (var product in products)
@@ -57,8 +57,8 @@ namespace NFZ.Builders
             return total;
         }
 
-        private int GetNumber()
-        {
+        private int GetNumber()         //Metoda zwraca obecny numer na iteratorze
+        {                               //Iterator jest użyty aby znaleźc nowy numer faktury
             iterator.isInvoice = true;
 
             while (!iterator.isDone())

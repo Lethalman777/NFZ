@@ -1,13 +1,13 @@
 ﻿@model DocumentModel
 
 @{
-    ViewData["Title"] = "Orders Page";
+    ViewData["Title"] = "Paragon Page";
 }
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <h1 style="text-align:center; font-size:3vw">RECEIPT</h1>
+    <h1 style="text-align:center; font-size:3vw">PARAGON</h1>
     <div class="boxParagon">
         <h2 style="margin-left:45%">NFZ</h2>       
             <sector class="nabywca_sprzedawca">
@@ -18,9 +18,9 @@
                     16-310 Sztabin
                 </div> 
                 <div>
-                    Nr:@Model.Number<br/>   
-                    Data:(data wystawienia)<br/>
-                    (dodatkowe informacje)
+                    Nr:@Model.Number<br/>  
+                    
+                    Data:@Model.PaymentDate<br />
                 </div>
             </sector><br/>
         <div class="line"></div> 
@@ -80,6 +80,6 @@
             <select asp-items="Model.selectLists" asp-for="SelectName">Produkty</select> <br />
             <button class="dodaj_produkt" type="button" asp-action="AddProductFromList" asp-controller="Document">Dodaj produkt</button> <br />
         }
-        <a href='@Url.Action("SaveReceipt", "Document", Model)'><button class="paragon" type="button">Dodaj Paragon</button></a> 
+        <a href='@Url.Action("SaveReceipt", "Document", Model)'><button class="paragon" style="margin-left:10px;margin-top:2px;" type="button">Dodaj Paragon</button></a> 
     </div>
 </body>

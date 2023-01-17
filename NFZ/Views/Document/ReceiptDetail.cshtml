@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <h1 style="text-align:center; font-size:3vw">RECEIPT</h1>
+    <h1 style="text-align:center; font-size:3vw">PARAGON</h1>
     <div class="boxParagon">
         <h2 style="margin-left:45%">NFZ</h2>       
             <sector class="nabywca_sprzedawca">
@@ -20,8 +20,8 @@
                 </div> 
                 <div>
                     Nr:@Model.Number<br/>   
-                    Data:(data wystawienia)<br/>
-                    (dodatkowe informacje)
+                    Data:@Model.Date<br/>
+                    
                 </div>
             </sector><br/>
         <div class="line"></div> 
@@ -56,7 +56,7 @@
                         @obj.ProductMany.Name
                     </td>
                     <td width="15%">
-                        @obj.ProductMany..Price
+                        @obj.ProductMany.Price
                     </td>
                     <td width="15%">
                         @obj.ProductMany.Vat

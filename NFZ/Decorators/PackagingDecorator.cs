@@ -7,7 +7,7 @@
         {
             _packaging = packaging;
         }
-        public virtual decimal Cena() { return _packaging.Cena(); }
-        public virtual String Opis() { return _packaging.Opis(); }
+        public virtual decimal Cena() { return _packaging.Cena(); } //Meoda virtualna zwracająca cenę opakowania
+        public virtual String Opis() { return _packaging.Opis(); } //Metoda virtualna zwracająca opis opakowania
     }
 }

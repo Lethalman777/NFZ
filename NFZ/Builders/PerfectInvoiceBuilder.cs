@@ -10,14 +10,14 @@ namespace NFZ.Builders
         Iterator iterator;
         public Invoice invoice;
 
-        public PerfectInvoiceBuilder(DocumentModel invoiceDto, Iterator iterator)
+        public PerfectInvoiceBuilder(DocumentModel invoiceDto, Iterator iterator) //Konstruktor
         {
             this.invoiceDto = invoiceDto;
             this.iterator = iterator;
         }
 
-        public override void BuildDocument()
-        {
+        public override void BuildDocument()   //Nadpisanie metody BuildDocument znajdującej się w klasie
+        {                                      //PerfectDocumentBuilder
             invoice = new Invoice()
             {
                 Worker = iterator.dbservice.GetWorker(1),
@@ -43,12 +43,12 @@ namespace NFZ.Builders
             }           
         }
 
-        public override Invoice GetDocument()
+        public override Invoice GetDocument()  //Nadpisanie metody getDocument z kalsy PerfectDocumentBuilder
         {
             return invoice;
         }
 
-        private decimal TotalPrice(List<Product> products)
+        private decimal TotalPrice(List<Product> products)  //Wyliczenie końcowej ceny na fakturze
         {
             decimal total = 0;
             foreach (var product in products)

@@ -26,7 +26,7 @@ namespace NFZ.Iterators
             return GetDocument(currentNumber);
         }
 
-        public void Next()
+        public void Next()      //Metoda zwraca nastepny numer dokumentu
         {
             while (GetDocument(currentNumber + 1) == null)
             {
@@ -36,7 +36,7 @@ namespace NFZ.Iterators
             currentNumber++;
         }
 
-        public bool isDone()
+        public bool isDone()        //Metoda sprawdza czy lista dokumentów na końcu 
         {
             if (GetDocument(currentNumber + 1) == null)
             {
@@ -48,13 +48,13 @@ namespace NFZ.Iterators
             }
         }
 
-        public Document CurrentDocument()
+        public Document CurrentDocument()   //Zwraca dokument o numerze podanym jako parametr currentNumber
         {
             return GetDocument(currentNumber);
         }
 
-        private Document GetDocument(int number)
-        {
+        private Document GetDocument(int number)   //Pobiera dokument z bazy danych o numerze podanym w 
+        {                                          //parametrze number
             return dbservice.GetDocument(number, isInvoice);
         }
     }

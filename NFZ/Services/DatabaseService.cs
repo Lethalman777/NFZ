@@ -12,30 +12,30 @@ namespace NFZ.Services
             _dbContext = dbContext;
         }
 
-        public List<Product> GetProducts()
+        public List<Product> GetProducts()    //Pobiera produkty
         {
             return _dbContext.products.ToList();
         }
 
-        public Product GetProduct(int id)
+        public Product GetProduct(int id)    //Pobiera produkt o wyznaczonym numerze 
         {
             var product = _dbContext.products.FirstOrDefault(p => p.Id == id);
 
             return product;
         }
 
-        public void AddProduct(Product product)
+        public void AddProduct(Product product) //Dodaje produkt do bazy danych
         {
             _dbContext.products.Add(product);
             _dbContext.SaveChanges();
         }
 
-        public Product GetProductName(string name)
+        public Product GetProductName(string name) //Zwraca nazwę produktu
         {
             return _dbContext.products.FirstOrDefault(v => v.Name == name);
         }
 
-        public void RemoveProduct(int Id)
+        public void RemoveProduct(int Id)   //Usuwa produkt z bazy danych
         {
             var product = _dbContext.products.FirstOrDefault(r => r.Id == Id);
 
@@ -44,23 +44,23 @@ namespace NFZ.Services
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Worker> GetWorkers()
+        public IEnumerable<Worker> GetWorkers() //Zwraca pracowników
         {
             return _dbContext.workers;
         }
 
-        public Worker GetWorker(int id)
+        public Worker GetWorker(int id)     //Zwraca pracownika o danym indeksie
         {
             return _dbContext.workers.FirstOrDefault(p => p.Id == id);
         }
 
-        public void AddWorker(Worker worker)
+        public void AddWorker(Worker worker)    //Dodaje pracownika do bazy danych 
         {
             _dbContext.workers.Add(worker);
             _dbContext.SaveChanges();
         }
 
-        public void RemoveWorker(int Id)
+        public void RemoveWorker(int Id)    //Usuwa pracownika z bazy danych
         {
             var worker = _dbContext.workers.FirstOrDefault(r => r.Id == Id);
 
@@ -69,7 +69,7 @@ namespace NFZ.Services
             _dbContext.SaveChanges();
         }
 
-        public Document GetDocument(int id, bool isInvoice)
+        public Document GetDocument(int id, bool isInvoice) //Pobiera dokument
         {
             if (isInvoice)
             {
@@ -103,7 +103,7 @@ namespace NFZ.Services
             }          
         }
 
-        public List<Product> GetProductsDocument(int id, bool isInvoice)
+        public List<Product> GetProductsDocument(int id, bool isInvoice)    //Zwraca listę produktów na dokumencie
         {
             if (isInvoice)
             {
@@ -131,7 +131,7 @@ namespace NFZ.Services
             }
         }
 
-        public List<Document> GetMixedDocuments()
+        public List<Document> GetMixedDocuments()   //Zwraca wszystkie dokumenty(faktury i paragony razem)
         {
             var list = new List<Document>();
             foreach(var item in _dbContext.invoices)
@@ -146,7 +146,7 @@ namespace NFZ.Services
             return list;
         }
 
-        public void AddInvoice(Invoice invoice)
+        public void AddInvoice(Invoice invoice) //Dodanie faktury do bazy danych
         {          
             _dbContext.invoices.Add(invoice);         
             _dbContext.SaveChanges();
@@ -164,7 +164,7 @@ namespace NFZ.Services
             _dbContext.SaveChanges();
         }
 
-        public void AddReceipt(Receipt receipt)
+        public void AddReceipt(Receipt receipt) //Dodanie paragonu do bazy danych 
         {
             _dbContext.receipts.Add(receipt);
             _dbContext.SaveChanges();
@@ -182,7 +182,7 @@ namespace NFZ.Services
             _dbContext.SaveChanges();
         }
 
-        public void RemoveDocument(int Id, bool isInvoice)
+        public void RemoveDocument(int Id, bool isInvoice)  //Usuwanie dokumentu z bazy danych 
         {
             if (isInvoice)
             {
@@ -201,7 +201,7 @@ namespace NFZ.Services
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Document> GetDocuments(bool isInvoice)
+        public IEnumerable<Document> GetDocuments(bool isInvoice) //Zwraca dokumenty
         {
             if(isInvoice)
             {
@@ -213,7 +213,7 @@ namespace NFZ.Services
             }           
         }
 
-        public List<Order> GetOrders()
+        public List<Order> GetOrders()  //Zwraca listę zamówień
         {
             return _dbContext.orders.ToList();
         }
@@ -234,7 +234,7 @@ namespace NFZ.Services
             return orders;
         }
 
-        public Order GetOrder(int id)
+        public Order GetOrder(int id)   //Pobiera zamówienie o numerze id
         {
             var order = _dbContext.orders.FirstOrDefault(r => r.Id == id);
 
@@ -244,13 +244,13 @@ namespace NFZ.Services
             return order;
         }
 
-        public void AddOrder(Order order)
+        public void AddOrder(Order order)   //Dodanie i zapisanie zamówienia w bazie danych
         {            
             _dbContext.orders.Add(order);
             _dbContext.SaveChanges();
         }
 
-        public void RemoveOrder(int Id)
+        public void RemoveOrder(int Id) //Usunięcie zamówienia z bazy danych 
         {
             var order = _dbContext.orders.FirstOrDefault(r => r.Id == Id);
 

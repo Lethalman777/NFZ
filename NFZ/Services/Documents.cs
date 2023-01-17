@@ -15,7 +15,7 @@ namespace NFZ.Services
             this.databaseService = databaseService;
         }
 
-        public DocumentModel GetTemplate(OrderModel order)
+        public DocumentModel GetTemplate(OrderModel order)  //Zwraca szaboln DocumentModel
         {
            var iterator = new Iterator(databaseService);
             
@@ -36,7 +36,7 @@ namespace NFZ.Services
             return documentDto;
         }
 
-        public void SaveDocument(DocumentModel model)
+        public void SaveDocument(DocumentModel model)   //Zapisuje dokument
         {
             PerfectDocumentBuilder builder;
            
