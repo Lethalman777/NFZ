@@ -1,0 +1,79 @@
+﻿@using NFZ.Entities
+@model CarouselInvoiceModel
+@{
+    ViewData["Title"] = "Faktura";
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <h1 style="text-align:center; font-size:3vw">INVOICE</h1>
+    <div class="boxFaktura">
+        <h2 style="margin-left:10px">NFZ</h2>
+        <div class="line"></div>
+            <div class="numerFaktury">Faktura VAT @Model.invoice.Number</div>
+            <div class="dataFaktury">@Model.invoice.PaymentDate</div><br/> 
+        <div class="line"></div> <br/>
+        
+            <sector class="nabywca_sprzedawca">
+                <div>
+                    Sprzedawca<br/>
+                    NIP: 666-666-666 <br/>
+                    PL 44 1234 5678 0000 1000 90<br/>
+                    ul. Augustowska 77/13<br/>
+                    16-310 Sztabin
+                </div> 
+                <div>
+                    Nabywca<br/>
+                    @Model.invoice.ClientName<br />
+                    NIP: @Model.invoice.NIP PL @Model.invoice.AccountNr<br />             
+                </div>
+            </sector><br/>
+        <div class="line"></div> 
+        <table class="produkty_faktura" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Lp
+                    </th>
+                    <th>
+                        Nazwa
+                    </th>
+                    <th>
+                        Cena
+                    </th>
+                    <th>
+                        VAT
+                    </th>
+                    <th>
+                        Ilość
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model.invoice.Products)
+                {
+                <tr>
+                    <td width="5%">
+                        Lp
+                    </td>
+                    <td width="30%">
+                        @obj.ProductMany.Name
+                    </td>
+                    <td width="15%">
+                        @obj.ProductMany.Price
+                    </td>
+                    <td width="15%">
+                        @obj.ProductMany.Vat
+                    </td>
+                    <td width="10%">
+                        @obj.ProductCount
+                    </td>                    
+                </tr>
+                }
+            </tbody>
+        </table>      
+    </div>
+    <a href='@Url.Action("NextInvoice", "Document", new { number = Model.invoice.Number})'><button class="faktura" style="margin-left:10px;margin-top:2px;" type="button">Zatwierdź Fakturę</button></a>
+    
+</body>

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NFZ.Builders;
+using NFZ.COResponsibility;
 using NFZ.Decorators;
 using NFZ.Entities;
+using NFZ.Iterators;
 using NFZ.Models;
 using NFZ.Services;
 
@@ -13,12 +15,15 @@ namespace NFZ.Controllers
         private readonly IDatabaseService dbservice;
         private readonly IDocuments documents;
         private readonly IPackaging packaging;
+        private Iterator iterator;
 
-        public DocumentController(IDatabaseService dbservice, IDocuments documents, IPackaging packaging)   //Konstruktor zawierający wszystkie servicy
+        public DocumentController(IDatabaseService dbservice, IDocuments documents, IPackaging packaging, IIterator iterator)   //Konstruktor zawierający wszystkie servicy
         {
             this.dbservice = dbservice;
             this.documents = documents;
             this.packaging = packaging;
+            //this.iterator = iterator;
+            this.iterator = new Iterator(dbservice);
         }
 
         [Route("AddToOrder")]
@@ -59,11 +64,11 @@ namespace NFZ.Controllers
             return RedirectToAction("Orders");
         }
 
-        [Route("Documents")] 
+        [Route("Documents")]
         public IActionResult Documents()    //Zwraca listę dokumentów
         {
-            var list = dbservice.GetMixedDocuments();           
-            
+            var list = dbservice.GetMixedDocuments();
+
             return View(list);
         }
 
@@ -71,6 +76,7 @@ namespace NFZ.Controllers
         public IActionResult InvoiceDetail(int number)  //Zwraca konkretą faktórę o numerze podanym w parametrze
         {
             var model = dbservice.GetDocument(number, true);
+            model = iterator.First();
 
             return View(model);
         }
@@ -175,7 +181,7 @@ namespace NFZ.Controllers
         public IActionResult Invoice(OrderModel order)  //Zwraca Fakturę
         {
             order.Products = new List<Product>();
-            foreach(var product in order.productId)
+            foreach (var product in order.productId)
             {
                 order.Products.Add(dbservice.GetProduct(product));
             }
@@ -190,7 +196,7 @@ namespace NFZ.Controllers
         public IActionResult SaveInvoice(DocumentModel invoice) //Zapisanie faktury
         {
             documents.SaveDocument(invoice);
-          
+
             return RedirectToAction("Orders");
         }
 
@@ -218,7 +224,7 @@ namespace NFZ.Controllers
         }
 
         public IActionResult ShowDocumentList(DocumentModel model)  //Zwraca listę wszystkich dokumentów
-        {     
+        {
             model.isSelect = true;
             model.SelectName = "";
 
@@ -259,10 +265,10 @@ namespace NFZ.Controllers
         //    return View("AddOrder", model);
         //}
 
-        public IActionResult AddProductFromListDocument(DocumentModel model) 
+        public IActionResult AddProductFromListDocument(DocumentModel model)
         {
             model.Products = new List<Product>();
-            foreach(var id in model.ProductIds)
+            foreach (var id in model.ProductIds)
             {
                 model.Products.Add(dbservice.GetProduct(id));
             }
@@ -304,6 +310,96 @@ namespace NFZ.Controllers
             var product = model.Products.FirstOrDefault(x => x.Id == id);
             model.Products.Remove(product);
             return View("Invoice", model);
+        }
+
+        public IActionResult NextInvoice(int number)
+        {
+            var model = new CarouselInvoiceModel();
+            model.iterator = new Iterator(dbservice);
+            model.iterator.currentNumber = number;
+            model.invoice = (Invoice)model.iterator.Next();
+            return View("CarouselInvoice", model);
+        }
+
+        public IActionResult StartInvoice()
+        {
+            var model = new CarouselInvoiceModel();
+            model.iterator = new Iterator(dbservice);
+            model.invoice = (Invoice)model.iterator.First();
+
+            return View("CarouselInvoice", model);
+        }
+
+        public IActionResult NextReceipt(int number)
+        {
+            var model = new CarouselInvoiceModel();
+            model.iterator = new Iterator(dbservice);
+            model.iterator.currentNumber = number;
+            model.invoice = (Invoice)model.iterator.Next();
+            return View("CarouselReceipt", model);
+        }
+
+        public IActionResult StartReceipt()
+        {
+            var model = new CarouselInvoiceModel();
+            model.iterator = new Iterator(dbservice);
+            model.invoice = (Invoice)model.iterator.First();
+
+            return View("CarouselReceipt", model);
+        }
+
+        public IActionResult Login()
+        {
+            var model = new WorkerModel();
+
+            return View("Login", model);
+        }
+
+        public IActionResult LoginConfirm(WorkerModel model)
+        {
+            var handler = new PasswordHandler(dbservice).SetNextHandler(new LoginHandler(dbservice));
+            var authService = new AuthService(handler);
+
+            if(authService.LogIn(model.Login, model.Password))
+            {
+                HttpContext.Session.SetString("isLoged", "true");
+                return RedirectToAction("Orders");
+            }
+            return View("Login", new WorkerModel());
+        }
+
+        public IActionResult Register()
+        {
+            var model = new RegisterModel();
+
+            return View("Registration", model);
+        }
+
+        public IActionResult RegisterConfirm(RegisterModel model)
+        {
+            //var handler = new LastnameHandler()
+            //    .SetNextHandler(new FirstnameHandler()
+            //    .SetNextHandler(new PasswordRegisterHandler()
+            //    .SetNextHandler(new LoginRegisterHandler(dbservice))));
+            var handler = new LoginRegisterHandler(dbservice);
+            handler.SetNextHandler(new PasswordRegisterHandler())
+                .SetNextHandler(new FirstnameHandler())
+                .SetNextHandler(new LastnameHandler());
+            var authService = new AuthService(handler);
+
+            if (authService.Register(model.Login, model.Password, model.ConfirmPassword, model.Name, model.SurName))
+            {
+                var worker = new Worker()
+                {
+                    Name = model.Name,
+                    Surname = model.SurName,
+                    Login = model.Login,
+                    Password = model.Password
+                };
+                dbservice.AddWorker(worker);
+                return RedirectToAction("Login");
+            }
+            return View("Registration", new RegisterModel());
         }
     }
 }

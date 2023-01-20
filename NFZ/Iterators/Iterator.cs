@@ -23,17 +23,24 @@ namespace NFZ.Iterators
                 firstNumber++;
             }
 
-            return GetDocument(currentNumber);
+            currentNumber = firstNumber;
+
+            return GetDocument(firstNumber);
         }
 
-        public void Next()      //Metoda zwraca nastepny numer dokumentu
+        public Document Next()      //Metoda zwraca nastepny numer dokumentu
         {
-            while (GetDocument(currentNumber + 1) == null)
+            if (!isDone())
             {
-                currentNumber++;
+                while (GetDocument(currentNumber + 1) == null)
+                {
+                    currentNumber++;
+                }              
             }
 
             currentNumber++;
+
+            return GetDocument(currentNumber);
         }
 
         public bool isDone()        //Metoda sprawdza czy lista dokumentów na końcu 
@@ -55,7 +62,8 @@ namespace NFZ.Iterators
 
         private Document GetDocument(int number)   //Pobiera dokument z bazy danych o numerze podanym w 
         {                                          //parametrze number
-            return dbservice.GetDocument(number, isInvoice);
+            var document = dbservice.GetDocument(number, true);
+            return document;
         }
     }
 }

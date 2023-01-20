@@ -1,0 +1,46 @@
+﻿@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+<head>
+    <link rel="stylesheet" href="~/css/StyleSheet.css" asp-append-version="true" />
+</head>
+<body class="loginbody">
+    <form class="registerbox" method="post" action="@Url.Action("RegisterConfirm", "Document", Model)">
+        
+            <h1>Register</h1>
+            <tr>
+                <div asp-validation-summary="All"></div>
+                <td><label class="text-light" asp-for="Login"></label></td>
+                <td><input asp-for="Login" class="form-control"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <div class="text-light">Password</div>
+                <td><input type="password" class="form-control" name="password"></td>
+            </tr>
+            <tr>
+                <div class="text-light">ConfirmPassword</div>
+                <td><input type="password" name="confirmPassword" class="form-control"></td>
+            </tr>
+
+
+            <tr>
+                <td><label class="text-light" asp-for="Name"></label></td>
+                <td><input asp-for="Name" class="form-control" /></td>
+
+            </tr>
+            <tr>
+                <td><label class="text-light" asp-for="SurName"></label></td>
+                <td><input asp-for="SurName" class="form-control" /></td>
+
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" value="Register"></td>
+            <BotDetect:WebFormsCaptcha ID="ExampleCaptcha" runat="server"
+                                       UserInputID="CaptchaCodeTextBox" />
+            </tr>
+    </form>
+</body>
+<script src='https://www.google.com/recaptcha/api.js' type="text/javascript"></script>

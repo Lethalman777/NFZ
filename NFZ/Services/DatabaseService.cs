@@ -44,9 +44,9 @@ namespace NFZ.Services
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Worker> GetWorkers() //Zwraca pracowników
+        public List<Worker> GetWorkers() //Zwraca pracowników
         {
-            return _dbContext.workers;
+            return _dbContext.workers.ToList();
         }
 
         public Worker GetWorker(int id)     //Zwraca pracownika o danym indeksie
@@ -257,6 +257,11 @@ namespace NFZ.Services
             _dbContext.Remove(order);
 
             _dbContext.SaveChanges();
+        }
+
+        public Worker GetLogin(string login)
+        {
+            return _dbContext.workers.FirstOrDefault(r => r.Login == login);
         }
     }
 }

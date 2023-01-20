@@ -18,12 +18,13 @@ namespace NFZ.Services
         Product GetProduct(int id);
         List<Product> GetProducts();
         Worker GetWorker(int id);
-        IEnumerable<Worker> GetWorkers();
+        List<Worker> GetWorkers();
         void RemoveDocument(int Id, bool isInvoice);
         void RemoveOrder(int Id);
         void RemoveProduct(int Id);
         void RemoveWorker(int Id);
         Product GetProductName(string selectName);
         List<Product> GetProductOrder(int id);
+        Worker GetLogin(string login);
     }
 }

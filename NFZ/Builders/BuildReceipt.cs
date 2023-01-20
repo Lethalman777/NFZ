@@ -20,26 +20,7 @@ namespace NFZ.Builders
 
         public override void BuildTemplate()    //Nadpisanie metody BuildTemplate znajdującej się w klasie
         {                                       //DocumentBuilder
-            receiptDto = new DocumentModel()
-            {
-                ProductCounts = new List<float>(),
-                Products = new List<Product>(order.Products),
-                Price = order.Price,
-                Number = GetNumber(),
-                ClientName = order.ClientName,
-                isInvoice = false,
-                SelectName = "",
-                Date = DateTime.Now,
-                ProductIds = new List<int>()
-            };
-
-            var r = new Random();
-            
-            foreach (var product in order.Products)
-            {
-                receiptDto.ProductIds.Add(product.Id);
-                receiptDto.ProductCounts.Add((float)r.Next(1, (int)product.Count));
-            }
+            receiptDto = new DocumentModel();
         }
 
         public override DocumentModel GetTemplate()     //Nadpisanie metody pobrania szablonu faktury
@@ -68,6 +49,45 @@ namespace NFZ.Builders
             }
 
             return iterator.currentNumber + 1;
+        }
+
+        public override void SetProducts()
+        {
+            receiptDto.ProductCounts = new List<float>();
+            receiptDto.Products = new List<Product>(order.Products);
+            receiptDto.ProductIds = new List<int>();
+            receiptDto.Price = TotalPrice(receiptDto.Products);
+
+            foreach (var product in receiptDto.Products)
+            {
+                receiptDto.ProductIds.Add(product.Id);
+            }
+
+            var r = new Random();
+
+            foreach (var product in order.Products)
+            {
+                receiptDto.ProductIds.Add(product.Id);
+                receiptDto.ProductCounts.Add((float)r.Next(1, (int)product.Count));
+            }
+        }
+
+        public override void SetCompanyInfo()
+        {
+            
+        }
+
+        public override void SetClientInfo()
+        {
+            receiptDto.ClientName = order.ClientName;
+        }
+
+        public override void SetOrderInfo()
+        {
+            receiptDto.Date = DateTime.Now;
+            receiptDto.PaymentDate = DateTime.Now.AddDays(30);
+            receiptDto.isInvoice = false;
+            receiptDto.Number = GetNumber();
         }
     }
 }

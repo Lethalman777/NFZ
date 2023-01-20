@@ -8,5 +8,9 @@ namespace NFZ.Builders
     {                                           
         public abstract void BuildTemplate();
         public abstract DocumentModel GetTemplate();
+        public abstract void SetProducts();
+        public abstract void SetCompanyInfo();
+        public abstract void SetClientInfo();
+        public abstract void SetOrderInfo();
     }
 }

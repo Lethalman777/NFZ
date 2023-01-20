@@ -87,6 +87,13 @@ namespace NFZ.Seeder
                         Surname = "Radziwił",
                         Login = "Wiesiek",
                         Password = "Traktor"
+                    },
+                     new Worker()
+                    {
+                        Name = "Władysłąw",
+                        Surname = "Sobieski",
+                        Login = "Somsiad",
+                        Password = "kosiarka"
                     }
                 };
         }

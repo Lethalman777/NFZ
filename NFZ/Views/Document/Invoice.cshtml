@@ -1,4 +1,5 @@
-﻿@model DocumentModel
+﻿@using NFZ.Entities
+@model DocumentModel
 @{
     ViewData["Title"] = "Faktura";
 }
@@ -69,7 +70,7 @@
                         @Model.ProductCounts[Model.Products.IndexOf(obj)]
                     </td>
                     <td width="25%">
-                       <a href='@Url.Action("DeleteProduct", "Document", new {model = Model, id = obj.Id})'>
+                       <a href='@Url.Action("DeleteProduct", "Document", Model)'>
                        <button class="usun_produkt" type="button">Usuń produkt</button></a> <br />
                     </td>
                 </tr>

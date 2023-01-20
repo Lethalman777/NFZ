@@ -1,0 +1,36 @@
+﻿@model WorkerModel
+@{
+    ViewData["Title"] = "Login";
+}
+<head>
+    <link rel="stylesheet" href="~/css/StyleSheet.css" asp-append-version="true" />
+</head>
+<body calss="loginbody">
+    <form class="loginbox" method="post" action="@Url.Action("LoginConfirm", "Document", Model)">
+        @ViewBag.msg
+        <h1>Login</h1>
+        <tr>     
+            <div asp-validation-summary="All"></div>            
+            <div class="text-light">Email</div>
+            <td><input asp-for="Login" class="form-control"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <div class="text-light">Password</div>
+            <td><input type="password" class="form-control" name="password"></td>
+        </tr>
+        <br />
+        <br />
+        <br />
+        <tr>
+            <td>&nbsp;</td>
+            <td><input class="loginbox" type="submit" value="Login"></td>           
+        </tr>
+        <br />
+        <br />
+        <br />
+    </form>
+    
+</body>
+<script src='https://www.google.com/recaptcha/api.js' type="text/javascript"></script>
+

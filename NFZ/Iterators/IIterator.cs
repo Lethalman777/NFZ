@@ -7,6 +7,6 @@ namespace NFZ.Iterators
         Document CurrentDocument();
         Document First();
         bool isDone();
-        void Next();
+        Document Next();
     }
 }
