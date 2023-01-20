@@ -401,5 +401,21 @@ namespace NFZ.Controllers
             }
             return View("Registration", new RegisterModel());
         }
+        public IActionResult AddProduct()
+        {
+            var product = new ProductModel();
+
+            return View("AddProduct", product);
+        }
+        public IActionResult AddProductConfirm(ProductModel model)
+        {
+            var handler = new Product();
+            handler.Name = model.Name;
+            handler.Price = model.Price;
+            handler.Count = model.Count;
+            handler.Vat = model.Vat;
+            dbservice.AddProduct(handler);
+            return View("AddProduct", new ProductModel());
+        }
     }
 }

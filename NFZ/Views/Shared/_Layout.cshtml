@@ -31,6 +31,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Document" asp-action="Documents">Dokumenty</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Document" asp-action="AddProduct">Dodaj produkt</a>
+                            </li>      
                         }
                         else
                         {
@@ -39,13 +42,23 @@
                             </li>
                              <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Document" asp-action="Register">Zarejestruj się</a>
-                            </li>
+                            </li>                          
                         }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    <body>
+        @if (@HttpContextAccessor.HttpContext.Session.GetString("isLoged") == "true")
+        {
+            <h1 style="text-align:center;">Witaj w systemie</h1>
+        }
+        else
+        {
+            <h1 style="text-align:center;">Proszę się zalogować </h1>
+        }
+    </body>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
