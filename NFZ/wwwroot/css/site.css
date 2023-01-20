@@ -195,4 +195,46 @@ body {
     padding: 10px 5px;
     word-break: normal;
 }
+.registerBox {
+    align-content: center;
+    text-align: center;
+    background-color: #9DB17C;
+    padding: 2vw;
+    width: 50%;
+    height: auto;
+    color: #4B3B40;
+    border: solid 2px;
+    border-color: #4B3B40;
+    border-radius: 4px;
+    margin: auto;
+}
+.registerLabel {
+    text-align: center;
+    color: #4B3B40;
+}
+.registerButton {
+    margin-top: 1vw;
+    padding: 1vw;
+    border: solid 2px;
+    border-color: #4B3B40;
+    border-radius: 2px;
+}
+.registerButton:hover {
+    background-color:#4B3B40;
+    color:whitesmoke;
+    transition:1s;
+}
+.registerInputBox {
+    align-content: center;
+    width: 80%;
+    margin: auto;
+    display: list-item;
+    border: solid 2px;
+    border-color: #4B3B40;
+    border-radius: 2px;
+}
+.registerInputBox:focus {
+    background-color: #4B3B40;
+    color: whitesmoke;
+    transition: 1s;
 }

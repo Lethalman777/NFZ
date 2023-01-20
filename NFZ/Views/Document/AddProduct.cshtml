@@ -1,0 +1,39 @@
+﻿@model ProductModel
+@{
+    ViewData["Title"] = "AddProduct Page";
+}
+
+<body>
+    <form class="registerBox" method="post" action="@Url.Action("AddProductConfirm", "Document", Model)" >
+        <h1 style="text-align:center;">Dodaj produkt</h1>
+        <tr>                
+            <div class="registerLabel">Nazwa produktu</div>
+            <td><input class="registerInputBox" name="Name"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <div class="registerLabel">Cena produktu</div>
+            <td><input type="number" class="registerInputBox" name="Price"></td>
+        </tr>
+        <tr>
+         <div class="registerLabel">Ilość</div>
+        <td><input type="number" class="registerInputBox" name="Count"></td>
+        </tr>
+        <tr>
+            <div class="registerLabel">VAT</div>
+            <td><input type="number" class="registerInputBox" name="VAT"></td>
+        </tr>
+        <br />
+        <br />
+        <br />
+        <tr>
+            <td>&nbsp;</td>
+            <td><input class="registerButton" type="submit" value="Dodaj Produkt"></td>           
+        </tr>
+        <br />
+        <br />
+        <br />
+    </form>
+</body>
+
+
