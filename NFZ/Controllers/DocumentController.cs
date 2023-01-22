@@ -26,18 +26,18 @@ namespace NFZ.Controllers
             this.iterator = new Iterator(dbservice);
         }
 
-        [Route("AddToOrder")]
         public IActionResult AddOrder()     //Dodanie zamówienia
         {
             var order = new OrderModel()
             {
-                productId = new List<int>(),
+                productId = new List<int>() { 1 },
+                Products = new List<Product>() { dbservice.GetProduct(1) },
                 isInvoke = true,
                 Price = 0,
-                ClientName = "ios",
+                ClientName = "",
                 isSelect = false
             };
-            return View(order);
+            return View("AddOrder", order);
         }
 
         [Route("SaveOrder")]
@@ -47,11 +47,14 @@ namespace NFZ.Controllers
             {
                 Products = new List<OrderProduct>(),
                 isInvoke = model.isInvoke,
-                ClientName = model.ClientName
+                ClientName = model.ClientName,
+                Date = DateTime.Now
             };
-
+            var r = new Random();
             foreach (var id in model.productId)
             {
+                if (model.productId.IndexOf(id) == 0)
+                    continue;
                 order.Products.Add(new OrderProduct()
                 {
                     OrderMany = order,
@@ -76,7 +79,6 @@ namespace NFZ.Controllers
         public IActionResult InvoiceDetail(int number)  //Zwraca konkretą faktórę o numerze podanym w parametrze
         {
             var model = dbservice.GetDocument(number, true);
-            model = iterator.First();
 
             return View(model);
         }
@@ -92,77 +94,96 @@ namespace NFZ.Controllers
         [Route("Orders")]
         public IActionResult Orders()   //Zwraca listę zamówień
         {
-            var orders = new List<OrderModel>()
+            //var orders = new List<OrderModel>()
+            //{
+            //    new OrderModel()
+            //    {
+            //        Id = 1,
+            //        ClientName = "Dawid",
+            //        Products = new List<Product>()
+            //        {
+            //            dbservice.GetProduct(1),
+            //            dbservice.GetProduct(2)
+            //        },
+            //        isInvoke = true,
+            //        Packaging = new PalleteDecorator(packaging),
+            //        Date = DateTime.Now
+            //    },
+            //    new OrderModel()
+            //    {
+            //        Id = 2,
+            //        ClientName = "Łukasz",
+            //        Products = new List<Product>()
+            //        {
+            //            dbservice.GetProduct(1),
+            //            dbservice.GetProduct(2)
+            //        },
+            //        isInvoke = false,
+            //        Packaging = new PalleteDecorator(packaging),
+            //        Date = DateTime.Now
+            //    },
+            //    new OrderModel()
+            //    {
+            //        Id = 3,
+            //        ClientName = "Janusz",
+            //        Products = new List<Product>()
+            //        {
+            //            dbservice.GetProduct(1),
+            //            dbservice.GetProduct(2),
+            //            dbservice.GetProduct(3)
+            //        },
+            //        isInvoke = true,
+            //        Packaging = new EnvelopeDecorator(packaging),
+            //        Date = DateTime.Now
+            //    },
+            //    new OrderModel()
+            //    {
+            //        Id = 4,
+            //        ClientName = "Aureliusz",
+            //        Products = new List<Product>()
+            //        {
+            //            dbservice.GetProduct(1),
+            //            dbservice.GetProduct(2),
+            //            dbservice.GetProduct(3),
+            //            dbservice.GetProduct(4)
+            //        },
+            //        isInvoke = false,
+            //        Packaging = new CardboardDecorator(packaging),
+            //        Date = DateTime.Now
+            //    },
+            //    new OrderModel()
+            //    {
+            //        Id = 5,
+            //        ClientName = "Edyta",
+            //        Products = new List<Product>()
+            //        {
+            //            dbservice.GetProduct(1),
+            //            dbservice.GetProduct(3)
+            //        },
+            //        isInvoke = false,
+            //        Packaging = new PalleteDecorator(packaging),
+            //        Date = DateTime.Now
+            //    }
+            //};
+
+            var list = dbservice.GetOrders();
+            var orders = new List<OrderModel>();
+            foreach (var id in list)
             {
-                new OrderModel()
+                orders.Add(new OrderModel()
                 {
-                    Id = 1,
-                    ClientName = "Dawid",
-                    Products = new List<Product>()
-                    {
-                        dbservice.GetProduct(1),
-                        dbservice.GetProduct(2)
-                    },
-                    isInvoke = true,
+                    Id = id.Id,
+                    ClientName = id.ClientName,
+                    isInvoke = id.isInvoke,
                     Packaging = new PalleteDecorator(packaging),
+                    Products = new List<Product>(),
                     Date = DateTime.Now
-                },
-                new OrderModel()
+                });
+                foreach (var product in id.Products)
                 {
-                    Id = 2,
-                    ClientName = "Łukasz",
-                    Products = new List<Product>()
-                    {
-                        dbservice.GetProduct(1),
-                        dbservice.GetProduct(2)
-                    },
-                    isInvoke = false,
-                    Packaging = new PalleteDecorator(packaging),
-                    Date = DateTime.Now
-                },
-                new OrderModel()
-                {
-                    Id = 3,
-                    ClientName = "Janusz",
-                    Products = new List<Product>()
-                    {
-                        dbservice.GetProduct(1),
-                        dbservice.GetProduct(2),
-                        dbservice.GetProduct(3)
-                    },
-                    isInvoke = true,
-                    Packaging = new EnvelopeDecorator(packaging),
-                    Date = DateTime.Now
-                },
-                new OrderModel()
-                {
-                    Id = 4,
-                    ClientName = "Aureliusz",
-                    Products = new List<Product>()
-                    {
-                        dbservice.GetProduct(1),
-                        dbservice.GetProduct(2),
-                        dbservice.GetProduct(3),
-                        dbservice.GetProduct(4)
-                    },
-                    isInvoke = false,
-                    Packaging = new CardboardDecorator(packaging),
-                    Date = DateTime.Now
-                },
-                new OrderModel()
-                {
-                    Id = 5,
-                    ClientName = "Edyta",
-                    Products = new List<Product>()
-                    {
-                        dbservice.GetProduct(1),
-                        dbservice.GetProduct(3)
-                    },
-                    isInvoke = false,
-                    Packaging = new PalleteDecorator(packaging),
-                    Date = DateTime.Now
+                    orders[orders.Count - 1].Products.Add(product.ProductMany);
                 }
-            };
+            }
             foreach (var order in orders)
             {
                 order.Price = 0;
@@ -188,6 +209,18 @@ namespace NFZ.Controllers
             order.isInvoke = true;
             var document = documents.GetTemplate(order);
             document.isInvoice = true;
+
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var product in dbservice.GetProducts())
+            {
+                list.Add(new SelectListItem()
+                {
+                    Text = product.Name,
+                    Value = product.Id.ToString()
+                });
+            }
+
+            document.selectLists = list;
 
             return View(document);
         }
@@ -226,7 +259,7 @@ namespace NFZ.Controllers
         public IActionResult ShowDocumentList(DocumentModel model)  //Zwraca listę wszystkich dokumentów
         {
             model.isSelect = true;
-            model.SelectName = "";
+            //model.SelectName = "";
 
             List<SelectListItem> list = new List<SelectListItem>();
             foreach (var product in dbservice.GetProducts())
@@ -243,27 +276,25 @@ namespace NFZ.Controllers
             return View("Invoice", model);
         }
 
-        //Funkcja wyłączona z użytkowania 
+        public IActionResult ShowOrderList(OrderModel model)    //Wyświetlenie listy zamówień
+        {
+            model.isSelect = true;
+            model.selectId = "";
 
-        //public IActionResult ShowOrderList(OrderModel model)    //Wyświetlenie listy zamówień
-        //{
-        //    model.isSelect = true;
-        //    model.selectId = "";
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var product in dbservice.GetProducts())
+            {
+                list.Add(new SelectListItem()
+                {
+                    Text = product.Name,
+                    Value = product.Id.ToString()
+                });
+            }
 
-        //    List<SelectListItem> list = new List<SelectListItem>();
-        //    foreach (var product in dbservice.GetProducts())
-        //    {
-        //        list.Add(new SelectListItem()
-        //        {
-        //            Text = product.Name,
-        //            Value = product.Id.ToString()
-        //        });
-        //    }
+            model.ProductSelectList = list;
 
-        //    model.ProductSelectList = list;
-
-        //    return View("AddOrder", model);
-        //}
+            return View("AddOrder", model);
+        }
 
         public IActionResult AddProductFromListDocument(DocumentModel model)
         {
@@ -273,37 +304,36 @@ namespace NFZ.Controllers
                 model.Products.Add(dbservice.GetProduct(id));
             }
 
-            var product = dbservice.GetProduct(int.Parse(model.SelectName));
+            var product = dbservice.GetProductName(model.SelectName);
             model.Products.Add(product);
             model.ProductIds.Add(product.Id);
+            var r = new Random();
+            model.ProductCounts.Add((float)r.Next(1, (int)product.Count));
 
             model.isSelect = false;
-            model.SelectName = "";
+            //model.SelectName = "";
 
             return View("Invoice", model);
         }
 
-        //Funkcja wyłączona z użytkowania
+        public IActionResult AddProductFromListOrder(OrderModel model)
+        {
+            model.Products = new List<Product>();
+            foreach (var id in model.productId)
+            {
+                model.Products.Add(dbservice.GetProduct(id));
+            }
 
-        //public IActionResult AddProductFromListOrder(OrderModel model)
-        //{
-        //    model.Products = new List<Product>();
-        //    foreach (var id in model.productId)
-        //    {
-        //        model.Products.Add(dbservice.GetProduct(id));
-        //    }
+            var product = dbservice.GetProductName(model.selectId);
+            model.Products.Add(product);
 
-        //    model.Products.Add(dbservice.GetProduct(int.Parse(model.selectId)));
+            model.productId.Add(product.Id);
 
-        //    var product = dbservice.GetProduct(int.Parse(model.selectId));
-        //    model.Products.Add(product);
-        //    model.productId.Add(product.Id);
+            model.isSelect = false;
+            model.selectId = "";
 
-        //    model.isSelect = false;
-        //    model.selectId = "";
-
-        //    return View("Order", model);
-        //}
+            return View("AddOrder", model);
+        }
 
         public IActionResult DeleteProduct(DocumentModel model, int id) //Usunięcie produktu
         {
@@ -316,8 +346,11 @@ namespace NFZ.Controllers
         {
             var model = new CarouselInvoiceModel();
             model.iterator = new Iterator(dbservice);
+            model.iterator.isInvoice = true;
             model.iterator.currentNumber = number;
-            model.invoice = (Invoice)model.iterator.Next();
+            if (!model.iterator.isDone())
+                model.invoice = (Invoice)model.iterator.Next();
+            model.invoice = (Invoice)model.iterator.CurrentDocument();
             return View("CarouselInvoice", model);
         }
 
@@ -325,6 +358,7 @@ namespace NFZ.Controllers
         {
             var model = new CarouselInvoiceModel();
             model.iterator = new Iterator(dbservice);
+            model.iterator.isInvoice = true;
             model.invoice = (Invoice)model.iterator.First();
 
             return View("CarouselInvoice", model);
@@ -332,18 +366,22 @@ namespace NFZ.Controllers
 
         public IActionResult NextReceipt(int number)
         {
-            var model = new CarouselInvoiceModel();
+            var model = new CarouselReceiptModel();
             model.iterator = new Iterator(dbservice);
+            model.iterator.isInvoice = false;
             model.iterator.currentNumber = number;
-            model.invoice = (Invoice)model.iterator.Next();
+            if (!model.iterator.isDone())
+                model.receipt = (Receipt)model.iterator.Next();
+            model.receipt = (Receipt)model.iterator.CurrentDocument();
             return View("CarouselReceipt", model);
         }
 
         public IActionResult StartReceipt()
         {
-            var model = new CarouselInvoiceModel();
+            var model = new CarouselReceiptModel();
             model.iterator = new Iterator(dbservice);
-            model.invoice = (Invoice)model.iterator.First();
+            model.iterator.isInvoice = false;
+            model.receipt = (Receipt)model.iterator.First();
 
             return View("CarouselReceipt", model);
         }
@@ -360,7 +398,7 @@ namespace NFZ.Controllers
             var handler = new PasswordHandler(dbservice).SetNextHandler(new LoginHandler(dbservice));
             var authService = new AuthService(handler);
 
-            if(authService.LogIn(model.Login, model.Password))
+            if (authService.LogIn(model.Login, model.Password))
             {
                 HttpContext.Session.SetString("isLoged", "true");
                 return RedirectToAction("Orders");

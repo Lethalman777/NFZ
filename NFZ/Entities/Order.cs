@@ -9,5 +9,7 @@
         public bool isInvoke { get; set; }
 
         public List<OrderProduct> Products { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }

@@ -11,25 +11,25 @@
     <div class="boxFaktura">
         <h2 style="margin-left:10px">NFZ</h2>
         <div class="line"></div>
-            <div class="numerFaktury">Faktura VAT @Model.Number</div>
-            <div class="dataFaktury">@Model.PaymentDate</div><br/> 
-        <div class="line"></div> <br/>
-        
-            <sector class="nabywca_sprzedawca">
-                <div>
-                    Sprzedawca<br/>
-                    NIP: 666-666-666 <br/> 
-                    PL 44 1234 5678 0000 1000 90<br/>
-                    ul. Augustowska 77/13<br/>
-                    16-310 Sztabin
-                </div> 
-                <div>
-                    Nabywca<br/>
-                    @Model.ClientName<br />
-                    NIP: PL @Model.NIP<br />             
-                </div>
-            </sector><br/>
-        <div class="line"></div> 
+        <div class="numerFaktury">Faktura VAT @Model.Number</div>
+        <div class="dataFaktury">@Model.PaymentDate</div><br />
+        <div class="line"></div> <br />
+
+        <sector class="nabywca_sprzedawca">
+            <div>
+                Sprzedawca<br />
+                NIP: 666-666-666 <br />
+                PL 44 1234 5678 0000 1000 90<br />
+                ul. Augustowska 77/13<br />
+                16-310 Sztabin
+            </div>
+            <div>
+                Nabywca<br />
+                @Model.ClientName<br />
+                NIP: PL @Model.NIP<br />
+            </div>
+        </sector><br />
+        <div class="line"></div>
         <table class="produkty_faktura" style="width:100%">
             <thead>
                 <tr>
@@ -53,43 +53,56 @@
             <tbody>
                 @foreach (var obj in Model.Products)
                 {
-                <tr>
-                    <td width="5%">
-                        Lp
-                    </td>
-                    <td width="30%">
-                        @obj.Name
-                    </td>
-                    <td width="15%">
-                        @obj.Price
-                    </td>
-                    <td width="15%">
-                        @obj.Vat
-                    </td>
-                    <td width="10%">
-                        @Model.ProductCounts[Model.Products.IndexOf(obj)]
-                    </td>
-                    <td width="25%">
-                       <a href='@Url.Action("DeleteProduct", "Document", Model)'>
-                       <button class="usun_produkt" type="button">Usuń produkt</button></a> <br />
-                    </td>
-                </tr>
+                    <tr>
+                        <td width="5%">
+                            Lp
+                        </td>
+                        <td width="30%">
+                            @obj.Name
+                        </td>
+                        <td width="15%">
+                            @obj.Price
+                        </td>
+                        <td width="15%">
+                            @obj.Vat
+                        </td>
+                        <td width="10%">
+                            @Model.ProductCounts[Model.Products.IndexOf(obj)]
+                        </td>
+                        <td width="25%">
+                            <a href='@Url.Action("DeleteProduct", "Document", Model)'>
+                                <button class="usun_produkt" type="button">Usuń produkt</button>
+                            </a> <br />
+                        </td>
+                    </tr>
                 }
             </tbody>
-        </table>    
+        </table>
+
         @if (!Model.isSelect)
         {
             <a href='@Url.Action("ShowDocumentList", "Document", Model)'>
-            <button class="dodaj_produkt" type="button">Dodaj produkt</button></a> <br />
-        }        
+                <button class="dodaj_produkt" type="button">Dodaj produkt</button>
+            </a> <br />
+        }
         else
         {
-            <select asp-items="Model.selectLists" asp-for="@ViewData["selectId"]">Produkty</select> <br />
-            <a href='@Url.Action("AddProductFromListDocument", "Document", Model)'>
-                <button class="dodaj_produkt" type="button">Dodaj produkt</button></a>
-             <br />
+            <select asp-items="Model.selectLists" asp-for="SelectName">Produkty</select>
+            <form class="registerBox" method="post" action="@Url.Action("AddProductFromListDocument", "Document", Model)">
+                <tr>
+                    <div class="registerLabel">Nazwa produktu</div>
+                    <td><input class="registerInputBox" name="SelectName"></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input class="registerButton" type="submit" value="Dodaj Produkt"></td>
+                </tr>
+            </form>
         }
         <a href='@Url.Action("SaveInvoice", "Document", Model)'>
-        <button class="faktura" style="margin-left:10px;margin-top:2px;" type="button">Zatwierdź Fakturę</button></a>
+            <button class="faktura" style="margin-left:10px;margin-top:2px;" type="button">Zatwierdź Fakturę</button>
+        </a>
     </div>
 </body>

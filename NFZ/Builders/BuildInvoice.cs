@@ -58,12 +58,7 @@ namespace NFZ.Builders
             invoiceDto.Products = new List<Product>(order.Products);
             invoiceDto.ProductIds = new List<int>();
             invoiceDto.Price = TotalPrice(invoiceDto.Products);
-
-            foreach(var product in invoiceDto.Products)
-            {
-                invoiceDto.ProductIds.Add(product.Id);
-            }
-
+           
             var r = new Random();
             foreach (var product in order.Products)
             {

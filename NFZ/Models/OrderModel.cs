@@ -14,7 +14,7 @@ namespace NFZ.Models
 
         public List<Product> Products { get; set; }
 
-        public List<int> productId { get; set; } = new List<int>();
+        public List<int> productId { get; set; }
 
         public List<SelectListItem> ProductSelectList { get; set; }
 

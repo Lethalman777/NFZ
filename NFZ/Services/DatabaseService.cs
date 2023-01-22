@@ -215,6 +215,12 @@ namespace NFZ.Services
 
         public List<Order> GetOrders()  //Zwraca listę zamówień
         {
+            var list = _dbContext.orders.ToList();
+            var orders = new List<Order>();
+            foreach (var order in list)
+            {
+                orders.Add(GetOrder(order.Id));
+            }
             return _dbContext.orders.ToList();
         }
 
@@ -240,6 +246,10 @@ namespace NFZ.Services
 
             order.Products = _dbContext.orderProducts.ToList();
             order.Products.RemoveAll(v=>v.OrderId != id);
+            foreach(var product in order.Products)
+            {
+                product.ProductMany = _dbContext.products.FirstOrDefault(v => v.Id == product.ProductId);
+            }
 
             return order;
         }

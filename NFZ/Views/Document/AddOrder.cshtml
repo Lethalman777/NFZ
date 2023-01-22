@@ -1,0 +1,97 @@
+﻿@model OrderModel
+@{
+    ViewData["Title"] = "AddProduct Page";
+}
+
+<body>
+    <form class="registerBox" method="post" action="@Url.Action("SaveOrder", "Document", Model)">
+        <h1 style="text-align:center;">Dodaj produkt</h1>
+        <tr>
+            <div class="registerLabel">Imię Klienta</div>
+            <td><input class="registerInputBox" name="ClientName"></td>
+            <td></td>
+        </tr>
+        <div class="line"></div>
+        <table class="produkty_faktura" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Lp
+                    </th>
+                    <th>
+                        Nazwa
+                    </th>
+                    <th>
+                        Cena
+                    </th>
+                    <th>
+                        VAT
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model.Products)
+                {
+                    @if (Model.Products.IndexOf(obj) != 0)
+                    {
+                        <tr>
+                            <td width="5%">
+                                Lp
+                            </td>
+                            <td width="30%">
+                                @obj.Name
+                            </td>
+                            <td width="15%">
+                                @obj.Price
+                            </td>
+                            <td width="15%">
+                                @obj.Vat
+                            </td>
+                            <td width="25%">
+                                <a href='@Url.Action("DeleteProduct", "Document", Model)'>
+                                    <button class="usun_produkt" type="button">Usuń produkt</button>
+                                </a> <br />
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <br />
+        <br />
+        <br />
+        <tr>
+            <td>&nbsp;</td>
+            <td><input class="registerButton" type="submit" value="Złóż Zamówienie"></td>
+        </tr>
+        <br />
+        <br />
+        <br />
+    </form>
+    @if (!Model.isSelect)
+        {
+            <a href='@Url.Action("ShowOrderList", "Document", Model)'>
+                <button class="dodaj_produkt" type="button">Dodaj produkt</button>
+            </a>
+            <br />
+        }
+        else
+        {
+            <select asp-items="Model.ProductSelectList" asp-for="selectId">Produkty</select>
+             <form class="registerBox" method="post" action="@Url.Action("AddProductFromListOrder", "Document", Model)">
+            <tr>
+                <div class="registerLabel">Nazwa produktu</div>
+                <td><input class="registerInputBox" name="selectId"></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+                <td><input class="registerButton" type="submit" value="Dodaj Produkt"></td>
+            </tr>
+             </form>
+        }
+</body>
+
+
+

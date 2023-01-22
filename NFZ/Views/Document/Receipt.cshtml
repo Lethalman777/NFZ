@@ -72,14 +72,27 @@
                 }
             </tbody>
         </table>
-         @if (!Model.isSelect)
+        @if (!Model.isSelect)
         {
-            <button class="dodaj_produkt" type="button" asp-action="ShowList" asp-controller="Document">Dodaj produkt</button> <br />
-        }        
+            <a href='@Url.Action("ShowDocumentList", "Document", Model)'>
+                <button class="dodaj_produkt" type="button">Dodaj produkt</button>
+            </a> <br />
+        }
         else
         {
-            <select asp-items="Model.selectLists" asp-for="SelectName">Produkty</select> <br />
-            <button class="dodaj_produkt" type="button" asp-action="AddProductFromList" asp-controller="Document">Dodaj produkt</button> <br />
+            <select asp-items="Model.selectLists" asp-for="SelectName">Produkty</select>
+            <form class="registerBox" method="post" action="@Url.Action("AddProductFromListDocument", "Document", Model)">
+                <tr>
+                    <div class="registerLabel">Nazwa produktu</div>
+                    <td><input class="registerInputBox" name="SelectName"></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input class="registerButton" type="submit" value="Dodaj Produkt"></td>
+                </tr>
+            </form>
         }
         <a href='@Url.Action("SaveReceipt", "Document", Model)'><button class="paragon" style="margin-left:10px;margin-top:2px;" type="button">Dodaj Paragon</button></a> 
     </div>

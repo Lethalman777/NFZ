@@ -62,7 +62,7 @@ namespace NFZ.Iterators
 
         private Document GetDocument(int number)   //Pobiera dokument z bazy danych o numerze podanym w 
         {                                          //parametrze number
-            var document = dbservice.GetDocument(number, true);
+            var document = dbservice.GetDocument(number, isInvoice);
             return document;
         }
     }
