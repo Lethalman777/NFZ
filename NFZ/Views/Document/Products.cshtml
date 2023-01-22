@@ -1,0 +1,57 @@
+﻿@using NFZ.Entities
+@model List<Product>
+@{
+    ViewData["Title"] = "Faktura";
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <h1 style="text-align:center; font-size:3vw">MAGAZYN</h1>
+    <table class="orders_table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th width="10%">
+                    Numer
+                </th>
+                <th width="40%">
+                    Nazwa
+                </th>
+                <th width="20%">
+                    Cena
+                </th>
+                <th width="15%">
+                    Ilość
+                </th>
+                <th width="15%">
+                    VAT
+                </th>
+            </tr>
+        </thead>
+        <tbody class="orders_table">
+    @foreach(var obj in Model)
+    {
+        <tr>
+            <td width="10%">
+                @obj.Id
+            </td>
+            <td width="40%">
+                @obj.Name
+            </td>
+            <td width="20%">
+                @obj.Price
+            </td>
+            <td width="15%">
+                @obj.Count
+            </td>
+            <td width="15%">
+                @obj.Vat
+            </td>
+        </tr>
+        
+    }
+    </tbody>
+    </table>
+
+
+</body>
