@@ -467,5 +467,24 @@ namespace NFZ.Controllers
             dbservice.AddProduct(handler);
             return View("AddProduct", new ProductModel());
         }
+        public IActionResult Products(ProductModel model)
+        {
+
+            List<Product> products = new List<Product>();
+            foreach (var product in dbservice.GetProducts())
+            {
+                products.Add(new Product()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Count = product.Count,
+                    Vat = product.Vat,
+
+                });
+            }
+
+            return View("Products", products);
+        }
     }
 }
