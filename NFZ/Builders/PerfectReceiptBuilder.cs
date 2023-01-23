@@ -1,6 +1,7 @@
 ﻿using NFZ.Entities;
 using NFZ.Iterators;
 using NFZ.Models;
+using NFZ.Factory;
 
 namespace NFZ.Builders
 {
@@ -18,26 +19,7 @@ namespace NFZ.Builders
 
         public override void BuildDocument()         //Nadpisanie metody BuildDocument znajdującej się w klasie
         {                                            //PerfectDocumentBuilder
-            receipt = new Receipt()
-            {
-                Worker = iterator.dbservice.GetWorker(1),
-                WorkerId = iterator.dbservice.GetWorker(1).Id,
-                Products = new List<ReceiptProduct>(),
-                Price = receiptDto.Price,
-                Number = receiptDto.Number,
-                ClientName = receiptDto.ClientName,
-                Date = receiptDto.Date
-            };
-
-            foreach (var product in receiptDto.ProductIds)
-            {
-                receipt.Products.Add(new ReceiptProduct()
-                {
-                    ReceiptMany = receipt,
-                    ProductMany = iterator.dbservice.GetProduct(product),
-                    ProductCount = receiptDto.ProductCounts[receiptDto.ProductIds.IndexOf(product)]
-                });
-            }
+            receipt = new Receipt();
         }
 
         public override Receipt GetDocument() //Nadpisanie metody getDocument z kalsy PerfectDocumentBuilder
@@ -54,6 +36,66 @@ namespace NFZ.Builders
             }
 
             return total;
+        }
+
+        public override void SetProducts()
+        {          
+            receipt.Price = TotalPrice(receiptDto.Products);
+
+            var r = new Random();
+            receipt.Products = new List<ReceiptProduct>();
+
+            foreach (var product in receiptDto.Products)
+            {
+                receipt.Products.Add(new ReceiptProduct()
+                {
+                    ReceiptMany = receipt,
+                    ProductId = product.Id,
+                    ProductMany = product,
+                    ProductCount = receiptDto.ProductCounts[receiptDto.Products.IndexOf(product)]
+                });
+            }
+        }
+
+        public override void SetCompanyInfo()
+        {
+            string country = receiptDto.Country;
+            Department department = null;
+            DepartmentManager departmentManager;
+            switch (country)
+            {
+                case "Poland":
+                    departmentManager = new PolandDepartmentManager();
+                    department = departmentManager.GetDepartment();
+                    break;
+                case "Germany":
+                    departmentManager = new GermanyDepartmentManager();
+                    department = departmentManager.GetDepartment();
+                    break;
+                case "Asia":
+                    departmentManager = new AsiaDepartmentManager();
+                    department = departmentManager.GetDepartment();
+                    break;
+            }
+            receipt.Department = country;
+            receipt.Address = department.Address;
+        }
+
+        public override void SetClientInfo()
+        {
+            receipt.ClientName = receiptDto.ClientName;
+        }
+
+        public override void SetOrderInfo()
+        {
+            receipt.Date = DateTime.Now;
+            receipt.Number = receiptDto.Number;
+        }
+
+        public override void SetWorkerInfo()
+        {
+            receipt.Worker = iterator.dbservice.GetWorker(1);
+            receipt.WorkerId = 1;
         }
     }
 }

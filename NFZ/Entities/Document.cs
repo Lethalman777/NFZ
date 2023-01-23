@@ -15,5 +15,9 @@
         public decimal Price { get; set; }
 
         public DateTime Date { get; set; }
+
+        public string Address { get; set; }
+
+        public string Department { get; set; }
     }
 }

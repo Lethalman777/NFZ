@@ -6,7 +6,7 @@ namespace NFZ.Entities
     {
         public NFZDbContext(DbContextOptions<NFZDbContext> options) : base(options)
         {
-            
+
         }
 
         public DbSet<Order> orders { get; set; }

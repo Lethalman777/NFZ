@@ -27,5 +27,9 @@ namespace NFZ.Models
         public IPackaging Packaging { get; set; }
 
         public DateTime Date{ get; set; }
+
+        public string Country { get; set; }
+
+        public string package { get; set; }
     }
 }

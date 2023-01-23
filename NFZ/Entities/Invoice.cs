@@ -6,9 +6,9 @@ namespace NFZ.Entities
     {
         public DateTime PaymentDate { get; set; }
 
-        public int NIP { get; set; }
+        public string NIP { get; set; }
 
-        public int AccountNr { get; set; }
+        public string AccountNr { get; set; }
 
         public List<InvoiceProduct> Products { get; set; }
     }

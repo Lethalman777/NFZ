@@ -25,9 +25,15 @@ namespace NFZ.Models
 
         public string ClientName { get; set; }
 
-        public int NIP { get; set; }
+        public string NIP { get; set; }
 
-        public int AccountNr { get; set; }
+        public string AccountNr { get; set; }
+
+        public string ExtraInfo { get; set; }
+        
+        public string Address { get; set; }
+
+        public string Country { get; set; }
 
         public bool isInvoice { get; set; }
 

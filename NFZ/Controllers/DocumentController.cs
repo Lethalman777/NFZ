@@ -35,7 +35,9 @@ namespace NFZ.Controllers
                 isInvoke = true,
                 Price = 0,
                 ClientName = "",
-                isSelect = false
+                isSelect = false,
+                Country = "",
+                package = ""
             };
             return View("AddOrder", order);
         }
@@ -48,8 +50,11 @@ namespace NFZ.Controllers
                 Products = new List<OrderProduct>(),
                 isInvoke = model.isInvoke,
                 ClientName = model.ClientName,
-                Date = DateTime.Now
+                Date = DateTime.Now,
+                Package = model.package,
+                Department = model.Country
             };
+            
             var r = new Random();
             foreach (var id in model.productId)
             {
@@ -175,10 +180,17 @@ namespace NFZ.Controllers
                     Id = id.Id,
                     ClientName = id.ClientName,
                     isInvoke = id.isInvoke,
-                    Packaging = new PalleteDecorator(packaging),
                     Products = new List<Product>(),
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    Country = id.Department,
+                    package = id.Package
                 });
+                if(id.Package == "Karton")
+                    orders[orders.Count - 1].Packaging = new CardboardDecorator(packaging);
+                else if(id.Package == "Paleta")
+                    orders[orders.Count - 1].Packaging = new PalleteDecorator(packaging);
+                else
+                    orders[orders.Count - 1].Packaging = new EnvelopeDecorator(packaging);
                 foreach (var product in id.Products)
                 {
                     orders[orders.Count - 1].Products.Add(product.ProductMany);

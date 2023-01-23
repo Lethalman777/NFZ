@@ -11,5 +11,9 @@
         public List<OrderProduct> Products { get; set; }
 
         public DateTime Date { get; set; }
+
+        public string Department { get; set; }
+
+        public string Package { get; set; }
     }
 }

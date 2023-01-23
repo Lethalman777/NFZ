@@ -3,6 +3,7 @@ using NFZ.Entities;
 using NFZ.Iterators;
 using NFZ.Models;
 using NFZ.Services;
+using NFZ.Factory;
 
 namespace NFZ.Builders
 {
@@ -69,7 +70,26 @@ namespace NFZ.Builders
 
         public override void SetCompanyInfo()
         {
-            
+            string country = order.Country;
+            Department department = null;
+            DepartmentManager departmentManager;
+            switch (country)
+            {
+                case "Poland":
+                    departmentManager = new PolandDepartmentManager();
+                    department = departmentManager.GetDepartment();
+                    break;
+                case "Germany":
+                    departmentManager = new GermanyDepartmentManager();
+                    department = departmentManager.GetDepartment();
+                    break;
+                case "Asia":
+                    departmentManager = new AsiaDepartmentManager();
+                    department = departmentManager.GetDepartment();
+                    break;
+            }
+            receiptDto.Country = country;
+            receiptDto.Address = department.Address;
         }
 
         public override void SetClientInfo()

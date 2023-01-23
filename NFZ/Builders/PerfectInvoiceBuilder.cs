@@ -1,6 +1,7 @@
 ﻿using NFZ.Entities;
 using NFZ.Iterators;
 using NFZ.Models;
+using NFZ.Factory;
 
 namespace NFZ.Builders
 {
@@ -18,29 +19,8 @@ namespace NFZ.Builders
 
         public override void BuildDocument()   //Nadpisanie metody BuildDocument znajdującej się w klasie
         {                                      //PerfectDocumentBuilder
-            invoice = new Invoice()
-            {
-                Worker = iterator.dbservice.GetWorker(1),
-                WorkerId = iterator.dbservice.GetWorker(1).Id,
-                Price = invoiceDto.Price,
-                PaymentDate = invoiceDto.PaymentDate,
-                ClientName = invoiceDto.ClientName,
-                Number = invoiceDto.Number,
-                NIP = invoiceDto.NIP,
-                AccountNr = invoiceDto.AccountNr,
-                Date = invoiceDto.Date,
-                Products = new List<InvoiceProduct>()
-            };
+            invoice = new Invoice();
 
-            foreach(var product in invoiceDto.ProductIds)
-            {
-                invoice.Products.Add(new InvoiceProduct()
-                {
-                    InvoiceMany = invoice,
-                    ProductMany = iterator.dbservice.GetProduct(product),
-                    ProductCount = invoiceDto.ProductCounts[invoiceDto.ProductIds.IndexOf(product)]
-                });
-            }           
         }
 
         public override Invoice GetDocument()  //Nadpisanie metody getDocument z kalsy PerfectDocumentBuilder
@@ -57,6 +37,68 @@ namespace NFZ.Builders
             }
 
             return total;
+        }
+
+        public override void SetProducts()
+        {
+            invoice.Price = TotalPrice(invoiceDto.Products);
+            invoice.Products = new List<InvoiceProduct>();
+
+            var r = new Random();
+            foreach (var product in invoiceDto.Products)
+            {
+                invoice.Products.Add(new InvoiceProduct()
+                {
+                    InvoiceMany = invoice,
+                    ProductId = product.Id,
+                    ProductMany = product,
+                    ProductCount = invoiceDto.ProductCounts[invoiceDto.Products.IndexOf(product)]
+                });
+            }
+        }
+
+        public override void SetCompanyInfo()
+        {
+            string country = invoiceDto.Country;
+            Department department = null;
+            DepartmentManager departmentManager;
+            switch (country)
+            {
+                case "Poland":
+                    departmentManager = new PolandDepartmentManager();
+                    department = departmentManager.GetDepartment();
+                    break;
+                case "Germany":
+                    departmentManager = new GermanyDepartmentManager();
+                    department = departmentManager.GetDepartment();
+                    break;
+                case "Asia":
+                    departmentManager = new AsiaDepartmentManager();
+                    department = departmentManager.GetDepartment();
+                    break;
+            }
+            invoice.Department = country;
+            invoice.NIP = department.NIP;
+            invoice.AccountNr = department.AccountNr;
+            invoice.Address = department.Address;
+        }
+
+        public override void SetClientInfo()
+        {
+            invoice.ClientName = invoiceDto.ClientName;
+        }
+
+        public override void SetOrderInfo()
+        {
+            invoice.Date = DateTime.Now;
+            invoice.PaymentDate = DateTime.Now.AddDays(30);
+            invoice.Number = invoiceDto.Number;
+        }
+
+        public override void SetWorkerInfo()
+        {
+            invoice.Worker = iterator.dbservice.GetWorker(1);
+            //invoice.WorkerId = 1;
         }
     }
 }

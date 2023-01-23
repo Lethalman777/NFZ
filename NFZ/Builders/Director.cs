@@ -16,6 +16,11 @@ namespace NFZ.Builders
         public void Construct(PerfectDocumentBuilder builder)
         {
             builder.BuildDocument();
+            builder.SetProducts();
+            builder.SetClientInfo();
+            builder.SetCompanyInfo();
+            builder.SetOrderInfo();
+            builder.SetWorkerInfo();
         }
     }
 }
