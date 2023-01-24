@@ -22,7 +22,6 @@ namespace NFZ.Controllers
             this.dbservice = dbservice;
             this.documents = documents;
             this.packaging = packaging;
-            //this.iterator = iterator;
             this.iterator = new Iterator(dbservice);
         }
 
@@ -54,7 +53,7 @@ namespace NFZ.Controllers
                 Package = model.package,
                 Department = model.Country
             };
-            
+
             var r = new Random();
             foreach (var id in model.productId)
             {
@@ -99,77 +98,6 @@ namespace NFZ.Controllers
         [Route("Orders")]
         public IActionResult Orders()   //Zwraca listę zamówień
         {
-            //var orders = new List<OrderModel>()
-            //{
-            //    new OrderModel()
-            //    {
-            //        Id = 1,
-            //        ClientName = "Dawid",
-            //        Products = new List<Product>()
-            //        {
-            //            dbservice.GetProduct(1),
-            //            dbservice.GetProduct(2)
-            //        },
-            //        isInvoke = true,
-            //        Packaging = new PalleteDecorator(packaging),
-            //        Date = DateTime.Now
-            //    },
-            //    new OrderModel()
-            //    {
-            //        Id = 2,
-            //        ClientName = "Łukasz",
-            //        Products = new List<Product>()
-            //        {
-            //            dbservice.GetProduct(1),
-            //            dbservice.GetProduct(2)
-            //        },
-            //        isInvoke = false,
-            //        Packaging = new PalleteDecorator(packaging),
-            //        Date = DateTime.Now
-            //    },
-            //    new OrderModel()
-            //    {
-            //        Id = 3,
-            //        ClientName = "Janusz",
-            //        Products = new List<Product>()
-            //        {
-            //            dbservice.GetProduct(1),
-            //            dbservice.GetProduct(2),
-            //            dbservice.GetProduct(3)
-            //        },
-            //        isInvoke = true,
-            //        Packaging = new EnvelopeDecorator(packaging),
-            //        Date = DateTime.Now
-            //    },
-            //    new OrderModel()
-            //    {
-            //        Id = 4,
-            //        ClientName = "Aureliusz",
-            //        Products = new List<Product>()
-            //        {
-            //            dbservice.GetProduct(1),
-            //            dbservice.GetProduct(2),
-            //            dbservice.GetProduct(3),
-            //            dbservice.GetProduct(4)
-            //        },
-            //        isInvoke = false,
-            //        Packaging = new CardboardDecorator(packaging),
-            //        Date = DateTime.Now
-            //    },
-            //    new OrderModel()
-            //    {
-            //        Id = 5,
-            //        ClientName = "Edyta",
-            //        Products = new List<Product>()
-            //        {
-            //            dbservice.GetProduct(1),
-            //            dbservice.GetProduct(3)
-            //        },
-            //        isInvoke = false,
-            //        Packaging = new PalleteDecorator(packaging),
-            //        Date = DateTime.Now
-            //    }
-            //};
 
             var list = dbservice.GetOrders();
             var orders = new List<OrderModel>();
@@ -185,9 +113,9 @@ namespace NFZ.Controllers
                     Country = id.Department,
                     package = id.Package
                 });
-                if(id.Package == "Karton")
+                if (id.Package == "Karton")
                     orders[orders.Count - 1].Packaging = new CardboardDecorator(packaging);
-                else if(id.Package == "Paleta")
+                else if (id.Package == "Paleta")
                     orders[orders.Count - 1].Packaging = new PalleteDecorator(packaging);
                 else
                     orders[orders.Count - 1].Packaging = new EnvelopeDecorator(packaging);
@@ -285,7 +213,10 @@ namespace NFZ.Controllers
 
             model.selectLists = list;
 
-            return View("Invoice", model);
+            if (model.isInvoice)
+                return View("Invoice", model);
+            else
+                return View("Receipt", model);
         }
 
         public IActionResult ShowOrderList(OrderModel model)    //Wyświetlenie listy zamówień
@@ -324,8 +255,10 @@ namespace NFZ.Controllers
 
             model.isSelect = false;
             //model.SelectName = "";
-
-            return View("Invoice", model);
+            if (model.isInvoice)
+                return View("Invoice", model);
+            else
+                return View("Receipt", model);
         }
 
         public IActionResult AddProductFromListOrder(OrderModel model)
@@ -427,10 +360,6 @@ namespace NFZ.Controllers
 
         public IActionResult RegisterConfirm(RegisterModel model)
         {
-            //var handler = new LastnameHandler()
-            //    .SetNextHandler(new FirstnameHandler()
-            //    .SetNextHandler(new PasswordRegisterHandler()
-            //    .SetNextHandler(new LoginRegisterHandler(dbservice))));
             var handler = new LoginRegisterHandler(dbservice);
             handler.SetNextHandler(new PasswordRegisterHandler())
                 .SetNextHandler(new FirstnameHandler())
