@@ -62,12 +62,5 @@ namespace NFZ.Services
                 databaseService.AddReceipt(document);
             }
         }
-
-        //Funkcja wyłączona z użytku
-        //
-        //public List<Document> GetDocuments(List<string> types)
-        //{
-        //    return documents;
-        //}
     }
 }
